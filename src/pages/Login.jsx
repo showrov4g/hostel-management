@@ -1,10 +1,19 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
+import { AuthContext } from "../context/AuthProvider";
 
 const Login = () => {
   const { register, handleSubmit } = useForm();
-  const onSubmit = (data) => console.log(data);
   const [state, setState] = useState("sign up");
+  const {createUser} = useContext(AuthContext);
+
+  //   account create and login functions
+
+  const onSubmit = (data) => {
+    const {name, email,password} = data;
+
+  };
+
   return (
     <div>
       <form
@@ -22,7 +31,7 @@ const Login = () => {
                 className="border border-x-zinc-300 rounded w-full p-2 mt-1"
                 type="text"
                 placeholder="Inter your name"
-                {...register("firstName", { required: true })}
+                {...register("name", { required: true })}
               />
             </div>
           ) : (
@@ -34,7 +43,7 @@ const Login = () => {
               className="border border-x-zinc-300 rounded w-full p-2 mt-1"
               type="email"
               placeholder="Inter your email"
-              {...register("firstName", { required: true })}
+              {...register("email", { required: true })}
             />
           </div>
           <div className="w-full">
@@ -43,7 +52,7 @@ const Login = () => {
               className="border border-x-zinc-300 rounded w-full p-2 mt-1"
               type="password"
               placeholder="Inter your password"
-              {...register("firstName", { required: true, maxLength: 20 })}
+              {...register("password", { required: true, maxLength: 20 })}
             />
           </div>
           <button className="bg-primary text-white w-full py-2 rounded-md text-base ">
