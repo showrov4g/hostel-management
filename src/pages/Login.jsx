@@ -4,12 +4,15 @@ import { AuthContext } from "../context/AuthProvider";
 import { toast } from "react-toastify";
 
 const Login = () => {
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const [state, setState] = useState("sign up");
-  const { createUser, loginUser } = useContext(AuthContext);
+  const { createUser, loginUser,loginWithGoogle } = useContext(AuthContext);
 
   //   account create and login functions
-
   const onSubmit = (data) => {
     const { name, email, password } = data;
 
@@ -23,6 +26,14 @@ const Login = () => {
             .catch((err) => toast.error(err.message));
     }
   };
+//   login with google 
+
+const handleGoogleLOgin =()=>{
+    loginWithGoogle()
+    .then(res=>toast.success("You have Successfully Login"))
+    .catch(err=>toast.error(err.message))
+}
+
 
   return (
     <div>
@@ -34,6 +45,7 @@ const Login = () => {
           <p className="text-2xl font-semibold">
             {state === "sign up" ? "Create an Account" : "Login now"}
           </p>
+          {/* name input field  */}
           {state === "sign up" ? (
             <div className="w-full">
               <p>Your Name</p>
@@ -42,11 +54,18 @@ const Login = () => {
                 type="text"
                 placeholder="Inter your name"
                 {...register("name", { required: true })}
+                aria-invalid={errors.name ? "true" : "false"}
               />
+              {errors.name?.type === "required" && (
+                <p role="alert" className="text-red-600">
+                  Name is required
+                </p>
+              )}
             </div>
           ) : (
             ""
           )}
+          {/* email input field  */}
           <div className="w-full">
             <p>Your Email</p>
             <input
@@ -54,8 +73,15 @@ const Login = () => {
               type="email"
               placeholder="Inter your email"
               {...register("email", { required: true })}
+              aria-invalid={errors.email ? "true" : "false"}
             />
+            {errors.email?.type === "required" && (
+              <p role="alert" className="text-red-600">
+                Email is required
+              </p>
+            )}
           </div>
+          {/* password input field  */}
           <div className="w-full">
             <p> Password</p>
             <input
@@ -63,7 +89,13 @@ const Login = () => {
               type="password"
               placeholder="Inter your password"
               {...register("password", { required: true, maxLength: 20 })}
+              aria-invalid={errors.password ? "true" : "false"}
             />
+            {errors.password?.type === "required" && (
+              <p role="alert" className="text-red-600">
+                Password is required
+              </p>
+            )}
           </div>
           <button className="bg-primary text-white w-full py-2 rounded-md text-base ">
             {state === "sign up" ? <p>Create Account</p> : <p>Login</p>}
@@ -89,8 +121,13 @@ const Login = () => {
               </span>
             </p>
           )}
+          {/* social media login  */}
+          <a onClick={handleGoogleLOgin} className="bg-primary text-white w-full py-2 rounded-md text-base cursor-pointer text-center">
+            GOOGLE
+          </a>
         </div>
       </form>
+
     </div>
   );
 };
