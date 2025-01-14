@@ -1,9 +1,15 @@
 import React, { useContext, useState } from "react";
 import { Link, NavLink } from "react-router";
 import { AuthContext } from "../context/AuthProvider";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
-  const {user} = useContext(AuthContext);
+  const {user,logout} = useContext(AuthContext);
+  const handleLogOut = ()=>{
+    logout()
+    .then(res=>(toast.success("You have successfully Logout")))
+    .catch(err=>toast.error(err.message))
+  }
 
   const links = (
     <>
@@ -104,7 +110,7 @@ const Navbar = () => {
                 <a>Settings</a>
               </li>
               <li>
-                <a>Logout</a>
+                <a onClick={handleLogOut}>Logout</a>
               </li>
             </ul>
           </div>
