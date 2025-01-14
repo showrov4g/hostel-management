@@ -1,17 +1,27 @@
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../context/AuthProvider";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const { register, handleSubmit } = useForm();
   const [state, setState] = useState("sign up");
-  const {createUser} = useContext(AuthContext);
+  const { createUser, loginUser } = useContext(AuthContext);
 
   //   account create and login functions
 
   const onSubmit = (data) => {
-    const {name, email,password} = data;
+    const { name, email, password } = data;
 
+    {
+      state === "sign up"
+        ? createUser(email, password)
+            .then((res) => toast.success("your account create successfully"))
+            .catch((err) => toast.error(err.message))
+        : loginUser(email, password)
+            .then((res) => toast.success("You have successfully login"))
+            .catch((err) => toast.error(err.message));
+    }
   };
 
   return (
