@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../context/AuthProvider";
 import { toast } from "react-toastify";
+import { FaGoogle } from "react-icons/fa";
 
 const Login = () => {
   const {
@@ -65,6 +66,23 @@ const handleGoogleLOgin =()=>{
           ) : (
             ""
           )}
+          {
+            state === 'sign up'?            <div className="w-full">
+            <p>Your Name</p>
+            <input
+              className="border border-x-zinc-300 rounded w-full p-2 mt-1"
+              type="file"
+              placeholder="Inter your name"
+              {...register("name", { required: true })}
+              aria-invalid={errors.name ? "true" : "false"}
+            />
+            {errors.name?.type === "required" && (
+              <p role="alert" className="text-red-600">
+                profile image is require
+              </p>
+            )}
+          </div>: ''
+          }
           {/* email input field  */}
           <div className="w-full">
             <p>Your Email</p>
@@ -122,8 +140,8 @@ const handleGoogleLOgin =()=>{
             </p>
           )}
           {/* social media login  */}
-          <a onClick={handleGoogleLOgin} className="bg-primary text-white w-full py-2 rounded-md text-base cursor-pointer text-center">
-            GOOGLE
+          <a onClick={handleGoogleLOgin} className="flex items-center justify-center gap-4 bg-primary text-white w-full py-2 rounded-md text-base cursor-pointer text-center">
+          <FaGoogle className="text-2xl"/> GOOGLE
           </a>
         </div>
       </form>
