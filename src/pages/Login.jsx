@@ -3,38 +3,91 @@ import { useForm } from "react-hook-form";
 import { AuthContext } from "../context/AuthProvider";
 import { toast } from "react-toastify";
 import { FaGoogle } from "react-icons/fa";
+import UseAxiosPublic from "../Hooks/UseAxiosPublic";
+import { useNavigate } from "react-router";
+import Swal from "sweetalert2";
+// image hosting secret
+const imageHostingKey = import.meta.env.VITE_IMAGE_HOSTING_KEY;
+const imageHostingApi = `https://api.imgbb.com/1/upload?key=${imageHostingKey}`;
 
 const Login = () => {
+  const navigate = useNavigate();
+  const axiosPublic = UseAxiosPublic();
+  const [display_url, setDisplay_url] = useState()
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [state, setState] = useState("sign up");
-  const { createUser, loginUser,loginWithGoogle } = useContext(AuthContext);
+  const [state, setState] = useState("Login");
+  const { createUser, loginUser, loginWithGoogle, updateUserProfile } =
+    useContext(AuthContext);
 
   //   account create and login functions
-  const onSubmit = (data) => {
-    const { name, email, password } = data;
+  const onSubmit = async (data) => {
+    const { name, email, password, photo } = data;
+    const imageList = { image: photo?.[0] };
+    // const res = await axiosPublic.post(imageHostingApi, imageList,{
+    //   headers:{
+    //     "content-type": 'multipart/form-data'
+    //   }
+    // })
+
+    {
+      state === "sign up"
+        ? axiosPublic.post(imageHostingApi, imageList, {
+            headers: {
+              "content-type": "multipart/form-data",
+            },
+          }) .then(res => setDisplay_url(res.data.data.display_url))
+
+        : "";
+    }
+
+    const usersInfo = {
+      name,
+      email,
+      profilePhoto: display_url,
+      role: "user",
+    };
 
     {
       state === "sign up"
         ? createUser(email, password)
-            .then((res) => toast.success("your account create successfully"))
+            .then(
+              (res) => (
+                updateUserProfile({
+                  displayName: name,
+                  photoURL: usersInfo.profilePhoto,
+                }),
+                axiosPublic.post("/users", usersInfo).then((res) => {
+                  if (res.data.insertedId) {
+                    Swal.fire({
+                      position: "top-end",
+                      icon: "success",
+                      title: "Your account create successfully",
+                      showConfirmButton: false,
+                      timer: 1500,
+                    });
+                    navigate(location?.state ? location.state : "/");
+                  }
+                })
+              )
+            )
             .catch((err) => toast.error(err.message))
         : loginUser(email, password)
             .then((res) => toast.success("You have successfully login"))
             .catch((err) => toast.error(err.message));
     }
   };
-//   login with google 
 
-const handleGoogleLOgin =()=>{
+  //   login with google
+
+  const handleGoogleLOgin = () => {
     loginWithGoogle()
-    .then(res=>toast.success("You have Successfully Login"))
-    .catch(err=>toast.error(err.message))
-}
-
+      .then((res) => toast.success("You have Successfully Login"))
+      .catch((err) => toast.error(err.message));
+  };
 
   return (
     <div>
@@ -66,23 +119,25 @@ const handleGoogleLOgin =()=>{
           ) : (
             ""
           )}
-          {
-            state === 'sign up'?            <div className="w-full">
-            <p>Your Name</p>
-            <input
-              className="border border-x-zinc-300 rounded w-full p-2 mt-1"
-              type="file"
-              placeholder="Inter your name"
-              {...register("name", { required: true })}
-              aria-invalid={errors.name ? "true" : "false"}
-            />
-            {errors.name?.type === "required" && (
-              <p role="alert" className="text-red-600">
-                profile image is require
-              </p>
-            )}
-          </div>: ''
-          }
+          {state === "sign up" ? (
+            <div className="w-full">
+              <p>Your Name</p>
+              <input
+                className="border border-x-zinc-300 rounded w-full p-2 mt-1"
+                type="file"
+                placeholder="Inter your name"
+                {...register("photo", { required: true })}
+                aria-invalid={errors.name ? "true" : "false"}
+              />
+              {errors.photo?.type === "required" && (
+                <p role="alert" className="text-red-600">
+                  profile image is require
+                </p>
+              )}
+            </div>
+          ) : (
+            ""
+          )}
           {/* email input field  */}
           <div className="w-full">
             <p>Your Email</p>
@@ -140,12 +195,14 @@ const handleGoogleLOgin =()=>{
             </p>
           )}
           {/* social media login  */}
-          <a onClick={handleGoogleLOgin} className="flex items-center justify-center gap-4 bg-primary text-white w-full py-2 rounded-md text-base cursor-pointer text-center">
-          <FaGoogle className="text-2xl"/> GOOGLE
+          <a
+            onClick={handleGoogleLOgin}
+            className="flex items-center justify-center gap-4 bg-primary text-white w-full py-2 rounded-md text-base cursor-pointer text-center"
+          >
+            <FaGoogle className="text-2xl" /> GOOGLE
           </a>
         </div>
       </form>
-
     </div>
   );
 };

@@ -1,29 +1,51 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, NavLink } from "react-router";
 import { AuthContext } from "../context/AuthProvider";
 import { toast } from "react-toastify";
+import { useQuery } from "@tanstack/react-query";
+import UseAxiosPublic from "../Hooks/UseAxiosPublic";
 
 const Navbar = () => {
-  const {user,logout} = useContext(AuthContext);
-  const handleLogOut = ()=>{
+  const axiosPublic = UseAxiosPublic();
+  const {user} = useContext(AuthContext)
+    
+  const [userAdmin, setUserAdmin] = useState()
+  console.log(userAdmin.role);
+  console.log(userAdmin)
+  
+  // data fetching
+  const { data: users } = useQuery({
+    queryKey: ["users"],
+    queryFn: async () => {
+      const res = await axiosPublic.get("/users");
+     return res.data;
+    },
+  });
+ 
+  useEffect(()=>{
+    users?.map(item=>setUserAdmin(item))
+  },[users])
+
+
+  const handleLogOut = () => {
     logout()
-    .then(res=>(toast.success("You have successfully Logout")))
-    .catch(err=>toast.error(err.message))
-  }
+      .then((res) => toast.success("You have successfully Logout"))
+      .catch((err) => toast.error(err.message));
+  };
 
   const links = (
     <>
       <li>
-        <NavLink to={'/'}>Home</NavLink>
+        <NavLink to={"/"}>Home</NavLink>
       </li>
       <li>
-        <NavLink to={'/meals'}>Meals</NavLink>
+        <NavLink to={"/meals"}>Meals</NavLink>
       </li>
       <li>
-        <NavLink to={'/upcoming-meals'} >Upcoming Meals</NavLink>
+        <NavLink to={"/upcoming-meals"}>Upcoming Meals</NavLink>
       </li>
       <li>
-        <NavLink to={''}>
+        <NavLink to={""}>
           <div tabIndex={0} role="button" className="">
             <div className="indicator">
               <svg
@@ -45,6 +67,7 @@ const Navbar = () => {
           </div>
         </NavLink>
       </li>
+     
     </>
   );
   return (
@@ -71,15 +94,15 @@ const Navbar = () => {
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
-           {links}
+            {links}
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">daisyUI</a>
+        <a className="btn btn-ghost text-xl uppercase">
+          Hos<span className="text-gray-500 -m-2">tel</span>
+        </a>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
-          {links}
-        </ul>
+        <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
       <div className="navbar-end">
         {user ? (
@@ -90,22 +113,18 @@ const Navbar = () => {
               className="btn btn-ghost btn-circle avatar"
             >
               <div className="w-10 rounded-full">
-                <img
-                  alt="Tailwind CSS Navbar component"
-                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-                />
+                <img alt="Tailwind CSS Navbar component" src={user?.photoURL} />
               </div>
             </div>
             <ul
               tabIndex={0}
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
             >
-              <li>
-                <a className="justify-between">
-                  Profile
-                  <span className="badge">New</span>
-                </a>
-              </li>
+              <p className="justify-between ml-3">
+                {user?.displayName}
+                <span className="badge">New</span>
+              </p>
+
               <li>
                 <a>Settings</a>
               </li>
@@ -115,7 +134,9 @@ const Navbar = () => {
             </ul>
           </div>
         ) : (
-          <Link to={'/login'} className="btn">Join Us</Link>
+          <Link to={"/login"} className="btn">
+            Join Us
+          </Link>
         )}
       </div>
     </div>

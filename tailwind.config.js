@@ -5,7 +5,11 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      background_image:{
+        'bgImage': 'url("./src/assets/header_img.png")' 
+      }
+    },
   },
   plugins: [require('daisyui')],
 }
