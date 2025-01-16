@@ -4,26 +4,17 @@ import { AuthContext } from "../context/AuthProvider";
 import { toast } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
 import UseAxiosSecure from "../Hooks/UseAxiosSecure";
+import UseAdmin from "../Hooks/UseAdmin";
 
 const Navbar = () => {
   const axiosSecure = UseAxiosSecure();
   const { logout, user } = useContext(AuthContext);
-  console.log(user);
-
   const [admin, setAdmin] = useState();
-  console.log(admin);
-  // data fetching
-  const { data: users } = useQuery({
-    queryKey: ["users"],
-    queryFn: async () => {
-      const res = await axiosSecure.get("/admin");
-      return res.data;
-    },
-  });
+  const [adminUser] = UseAdmin();
 
   useEffect(() => {
-    users?.map((item) => setAdmin(item));
-  }, [users]);
+    adminUser?.map((item) => setAdmin(item));
+  }, [adminUser]);
 
   const handleLogOut = () => {
     logout()
@@ -69,7 +60,7 @@ const Navbar = () => {
       admin?.role ==="admin" ? <li><NavLink>Dashboard</NavLink></li>: ''
       } */}
       {
-        user?.email === admin?.email ? <li><NavLink>Dashboard</NavLink></li> : ""
+        user?.email === admin?.email ? <li><NavLink to={'/adminDashboard'}>Dashboard</NavLink></li> : ""
       }
     </>
   );
