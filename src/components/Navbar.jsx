@@ -3,29 +3,27 @@ import { Link, NavLink } from "react-router";
 import { AuthContext } from "../context/AuthProvider";
 import { toast } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
-import UseAxiosPublic from "../Hooks/UseAxiosPublic";
+import UseAxiosSecure from "../Hooks/UseAxiosSecure";
 
 const Navbar = () => {
-  const axiosPublic = UseAxiosPublic();
-  const {user} = useContext(AuthContext)
-    
-  const [userAdmin, setUserAdmin] = useState()
-  console.log(userAdmin.role);
-  console.log(userAdmin)
-  
+  const axiosSecure = UseAxiosSecure();
+  const { logout, user } = useContext(AuthContext);
+  console.log(user);
+
+  const [admin, setAdmin] = useState();
+  console.log(admin);
   // data fetching
   const { data: users } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
-      const res = await axiosPublic.get("/users");
-     return res.data;
+      const res = await axiosSecure.get("/admin");
+      return res.data;
     },
   });
- 
-  useEffect(()=>{
-    users?.map(item=>setUserAdmin(item))
-  },[users])
 
+  useEffect(() => {
+    users?.map((item) => setAdmin(item));
+  }, [users]);
 
   const handleLogOut = () => {
     logout()
@@ -67,7 +65,12 @@ const Navbar = () => {
           </div>
         </NavLink>
       </li>
-     
+      {/* {
+      admin?.role ==="admin" ? <li><NavLink>Dashboard</NavLink></li>: ''
+      } */}
+      {
+        user?.email === admin?.email ? <li><NavLink>Dashboard</NavLink></li> : ""
+      }
     </>
   );
   return (

@@ -3,7 +3,7 @@ import { AuthContext } from '../context/AuthProvider';
 
 const AdminRoute = () => {
     const {user, loading}= useContext(AuthContext)
-    const [isAdmin, isAdminLoading] = ()
+    
     return (
         <div>
             
