@@ -9,12 +9,7 @@ import UseAdmin from "../Hooks/UseAdmin";
 const Navbar = () => {
   const axiosSecure = UseAxiosSecure();
   const { logout, user } = useContext(AuthContext);
-  const [admin, setAdmin] = useState();
-  const [adminUser] = UseAdmin();
 
-  useEffect(() => {
-    adminUser?.map((item) => setAdmin(item));
-  }, [adminUser]);
 
   const handleLogOut = () => {
     logout()
@@ -56,12 +51,10 @@ const Navbar = () => {
           </div>
         </NavLink>
       </li>
-      {/* {
-      admin?.role ==="admin" ? <li><NavLink>Dashboard</NavLink></li>: ''
-      } */}
-      {
-        user?.email === admin?.email ? <li><NavLink to={'/adminDashboard'}>Dashboard</NavLink></li> : ""
-      }
+      <li>
+        <NavLink to={'/dashboard'}>Dashboard</NavLink>
+      </li>
+  
     </>
   );
   return (

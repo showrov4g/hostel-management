@@ -1,13 +1,66 @@
-import { Outlet } from "react-router";
+import { FaUser } from "react-icons/fa";
+import { Link, NavLink, Outlet } from "react-router";
 
 const AdminDashboard = () => {
-    return (
-        <div className="w-11/12 mx-auto">
-            {/* admin navbar  */}
-            
-            
+  return (
+    <div className="w-11/12 mx-auto">
+      {/* navbar  */}
+      <div className="navbar bg-base-100">
+        <div className="flex-1">
+          <a className="btn btn-ghost text-xl">Dashboard</a>
         </div>
-    );
+        <div className="flex-none">
+          <button className="btn btn-primary">Logout</button>
+        </div>
+      </div>
+
+      {/* navbar end */}
+      <div className="flex gap-12">
+        <div className="bg-green-50">
+          <div>
+            <div className="drawer lg:drawer-open">
+              <input
+                id="my-drawer-2"
+                type="checkbox"
+                className="drawer-toggle"
+              />
+              <div className="drawer-content flex flex-col items-center justify-center">
+                {/* Page content here */}
+                <label
+                  htmlFor="my-drawer-2"
+                  className="btn btn-primary drawer-button lg:hidden"
+                >
+                  Open drawer
+                </label>
+              </div>
+              <div className="drawer-side">
+                <label
+                  htmlFor="my-drawer-2"
+                  aria-label="close sidebar"
+                  className="drawer-overlay"
+                ></label>
+                <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+                  {/* Sidebar content here */}
+                  <li>
+                    <Link to={'additem'}>Add an item</Link>
+                  </li>
+                  <li>
+                   <Link to={'cart'}>My Cart</Link>
+                  </li>
+                  <li>
+                   <Link to={'alluser'}><FaUser></FaUser> All user</Link>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex-1 bg-green-100 p-14">
+          <Outlet></Outlet>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default AdminDashboard;

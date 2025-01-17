@@ -49,6 +49,7 @@ const Login = () => {
       email,
       profilePhoto: display_url,
       role: "user",
+      subscription: "Bronze"
     };
 
     {
