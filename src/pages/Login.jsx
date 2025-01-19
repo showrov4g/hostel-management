@@ -4,7 +4,7 @@ import { AuthContext } from "../context/AuthProvider";
 import { toast } from "react-toastify";
 import { FaGoogle } from "react-icons/fa";
 import UseAxiosPublic from "../Hooks/UseAxiosPublic";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 // image hosting secret
 const imageHostingKey = import.meta.env.VITE_IMAGE_HOSTING_KEY;
@@ -12,6 +12,7 @@ const imageHostingApi = `https://api.imgbb.com/1/upload?key=${imageHostingKey}`;
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const axiosPublic = UseAxiosPublic();
   const [display_url, setDisplay_url] = useState()
   const {
@@ -27,11 +28,7 @@ const Login = () => {
   const onSubmit = async (data) => {
     const { name, email, password, photo } = data;
     const imageList = { image: photo?.[0] };
-    // const res = await axiosPublic.post(imageHostingApi, imageList,{
-    //   headers:{
-    //     "content-type": 'multipart/form-data'
-    //   }
-    // })
+  
 
     {
       state === "sign up"
@@ -77,7 +74,11 @@ const Login = () => {
             )
             .catch((err) => toast.error(err.message))
         : loginUser(email, password)
-            .then((res) => toast.success("You have successfully login"))
+            .then((res) => {
+              toast.success("You have successfully login")
+              navigate(location?.state ? location.state : "/");
+              
+            })
             .catch((err) => toast.error(err.message));
     }
   };
@@ -86,7 +87,32 @@ const Login = () => {
 
   const handleGoogleLOgin = () => {
     loginWithGoogle()
-      .then((res) => toast.success("You have Successfully Login"))
+      .then((res) => {
+        const usersInfo = {
+          name: res.user.displayName,
+          email: res.user.email,
+          profilePhoto: res.user.photoURL,
+          role: "user",
+          subscription: "Bronze"
+        }
+        if(res.user){
+          axiosPublic.post('/users', usersInfo)
+          .then(res=>{
+            if(res.data.insertedId){
+              Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Your account create successfully",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              navigate(location?.state ? location.state : "/");
+            }
+          })
+        }
+
+        
+      })
       .catch((err) => toast.error(err.message));
   };
 

@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { Link, NavLink, Outlet } from "react-router";
+import UseAdmin from "../Hooks/UseAdmin";
 
 const AdminDashboard = () => {
+  const [isAdmin] = UseAdmin();
   return (
     <div className="w-11/12 mx-auto">
       {/* navbar  */}
@@ -41,15 +44,25 @@ const AdminDashboard = () => {
                 ></label>
                 <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
                   {/* Sidebar content here */}
-                  <li>
-                    <Link to={'additem'}>Add an item</Link>
-                  </li>
-                  <li>
-                   <Link to={'cart'}>My Cart</Link>
-                  </li>
-                  <li>
-                   <Link to={'alluser'}><FaUser></FaUser> All user</Link>
-                  </li>
+                  {isAdmin ? (
+                    <div>
+                      <li>
+                        <Link to={"additem"}>Add an item</Link>
+                      </li>
+
+                      <li>
+                        <Link to={"alluser"}>
+                          <FaUser></FaUser> All user
+                        </Link>
+                      </li>
+                    </div>
+                  ) : (
+                    <div>
+                      <li>
+                        <Link to={"cart"}>My Cart</Link>
+                      </li>
+                    </div>
+                  )}
                 </ul>
               </div>
             </div>

@@ -1,29 +1,25 @@
-import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../context/AuthProvider";
+import React, { useContext } from "react";
 import UseAdmin from "../Hooks/UseAdmin";
-import { Navigate, useLocation, useNavigate } from "react-router";
+import { AuthContext } from "../context/AuthProvider";
+import { Navigate, useLocation } from "react-router";
 
-const AdminRoute = ({ children }) => {
+const AdminRoute = ({children}) => {
   const { user, loading } = useContext(AuthContext);
-  const [adminUser,adminLoading] = UseAdmin();
-  const [admin, setAdmin]= useState()
+  const [isAdmin, isAdminLoading] = UseAdmin();
   const location = useLocation();
-  const navigate = useNavigate()
+  const token = localStorage.getItem('access-token')
 
-  useEffect(()=>{
-    {
-        adminUser?.map(item=>setAdmin(item))
-    }
-  },[adminUser])
-  if (loading || adminLoading) {
+  if (loading || isAdminLoading) {
     return <progress className="progress w-56"></progress>;
   }
-
-  if (user && admin) {
+  if(token){
+    return children;
+  }
+  if (user && isAdmin) {
     return children;
   }
 
-  return (navigate(location?.state ? location.state :''));
+  return <Navigate to="/login" state={{ from: location }} replace></Navigate>;
 };
 
 export default AdminRoute;

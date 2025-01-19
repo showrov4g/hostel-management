@@ -1,12 +1,71 @@
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
+import { AuthContext } from "../context/AuthProvider";
+import UseAxiosSecure from "../Hooks/UseAxiosSecure";
+import UseAxiosPublic from "../Hooks/UseAxiosPublic";
+import Swal from "sweetalert2";
 
 const AddItem = () => {
+  const { imageHostingApi, user } = useContext(AuthContext);
+  const axiosPublic = UseAxiosPublic();
+  const axiosSecure = UseAxiosSecure();
+
+  const [image_url, setImage_url] = useState("");
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm();
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (data) => {
+    const { email, displayName } = user;
+
+    const {
+      mealName,
+      category,
+      time,
+      description,
+      ingredient,
+      mealImage,
+      price,
+    } = data;
+    const mealImageList = { image: mealImage?.[0] };
+
+
+    const res = await axiosPublic.post(imageHostingApi, mealImageList, {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+
+    });
+    if (res.data.success) {
+      const mealItem = {
+        mealName,
+        category,
+        time,
+        description,
+        ingredient,
+        mealImage: res.data.data.display_url,
+        price,
+        distributer_name: displayName,
+        distributer_email: email,
+        rating: 0,
+        like: 0,
+      };
+      const mealRes = await axiosSecure.post("/meals", mealItem);
+     
+      if(mealRes.data.insertedId){
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Your work has been saved",
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }
+    }
+
+    
+  };
 
   return (
     <div>
@@ -14,8 +73,10 @@ const AddItem = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* meal name  */}
         <div>
-            <p>Meal Name</p>
-          <input type="text" placeholder="inter meal name"
+          <p>Meal Name</p>
+          <input
+            type="text"
+            placeholder="inter meal name"
             {...register("mealName", { required: true })}
             aria-invalid={errors.mealName ? "true" : "false"}
           />
@@ -25,8 +86,9 @@ const AddItem = () => {
         </div>
         {/* meal category */}
         <div>
-            <p>category name</p>
-          <input type="text"
+          <p>category name</p>
+          <input
+            type="text"
             {...register("category", { required: true })}
             aria-invalid={errors.category ? "true" : "false"}
           />
@@ -36,8 +98,9 @@ const AddItem = () => {
         </div>
         {/* meal image  */}
         <div>
-            <p>Meal Image</p>
-          <input type="file"
+          <p>Meal Image</p>
+          <input
+            type="file"
             {...register("mealImage", { required: true })}
             aria-invalid={errors.mealImage ? "true" : "false"}
           />
@@ -47,8 +110,9 @@ const AddItem = () => {
         </div>
         {/* ingredients  */}
         <div>
-            <p>Meal ingredients</p>
-          <input type="text"
+          <p>Meal ingredients</p>
+          <input
+            type="text"
             {...register("ingredient", { required: true })}
             aria-invalid={errors.ingredient ? "true" : "false"}
           />
@@ -56,10 +120,11 @@ const AddItem = () => {
             <p role="alert">First name is required</p>
           )}
         </div>
-             {/* price */}
-             <div>
-            <p>Meal Price</p>
-          <input type="number"
+        {/* price */}
+        <div>
+          <p>Meal Price</p>
+          <input
+            type="number"
             {...register("price", { required: true })}
             aria-invalid={errors.price ? "true" : "false"}
           />
@@ -69,9 +134,9 @@ const AddItem = () => {
         </div>
         {/* description */}
         <div>
-            <p>Meal Description</p>
-            
-          <textarea 
+          <p>Meal Description</p>
+
+          <textarea
             {...register("description", { required: true })}
             aria-invalid={errors.description ? "true" : "false"}
           ></textarea>
@@ -79,20 +144,21 @@ const AddItem = () => {
             <p role="alert">First name is required</p>
           )}
         </div>
-   
+
         {/* date */}
         <div>
-            <p>Meal Date</p>
-          <input type="date"
-            {...register("date", { required: true })}
-            aria-invalid={errors.date ? "true" : "false"}
+          <p>Meal time</p>
+          <input
+            type="time"
+            {...register("time", { required: true })}
+            aria-invalid={errors.time ? "true" : "false"}
           />
-          {errors.date?.type === "required" && (
+          {errors.time?.type === "required" && (
             <p role="alert">First name is required</p>
           )}
         </div>
         {/* submit  */}
-        <button >submit</button>
+        <button>submit</button>
       </form>
     </div>
   );
