@@ -49,6 +49,9 @@ const AdminDashboard = () => {
                       <li>
                         <Link to={"additem"}>Add an item</Link>
                       </li>
+                      <li>
+                        <Link to={"addUpcomingMeal"}>Add up Coming Meal</Link>
+                      </li>
 
                       <li>
                         <Link to={"alluser"}>

@@ -12,6 +12,7 @@ import AllUser from "../admin/AllUser";
 import { useState } from "react";
 import AllMeals from "../pages/AllMeals";
 import MealsDetails from "../pages/MealsDetails";
+import AddUpComingMeal from "../admin/AddUpComingMeal";
 
 const Router = () => {
   const [isAdmin, setIsAdmin] = useState(true)
@@ -37,6 +38,7 @@ const Router = () => {
             
             <Route path="additem" element={<AdminRoute><AddItem></AddItem></AdminRoute>}></Route>
             <Route path="alluser" element={<AllUser></AllUser>}></Route>
+            <Route path="addUpcomingMeal" element={<AddUpComingMeal></AddUpComingMeal>}></Route>
 
             </Route>
           </Route>
