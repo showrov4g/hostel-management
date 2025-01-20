@@ -67,6 +67,9 @@ const AdminDashboard = () => {
                       <li>
                         <Link to={"userprofile"}>My Profile</Link>
                       </li>
+                      <li>
+                        <Link to={"reviews"}>My Reviews</Link>
+                      </li>
                     </div>
                   )}
                 </ul>

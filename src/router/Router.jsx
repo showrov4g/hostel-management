@@ -15,6 +15,7 @@ import MealsDetails from "../pages/MealsDetails";
 import AddUpComingMeal from "../admin/AddUpComingMeal";
 import UserProfile from "../admin/UserProfile";
 import RequestedMeals from "../admin/RequestedMeals";
+import MyReviews from "../admin/MyReviews";
 
 const Router = () => {
   const [isAdmin, setIsAdmin] = useState(true);
@@ -60,6 +61,10 @@ const Router = () => {
               <Route
                 path="requested"
                 element={<RequestedMeals></RequestedMeals>}
+              ></Route>
+              <Route
+                path="reviews"
+                element={<MyReviews></MyReviews>}
               ></Route>
             </Route>
           </Route>
