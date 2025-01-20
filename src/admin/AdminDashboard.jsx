@@ -65,11 +65,12 @@ const AdminDashboard = () => {
                         <Link to={"requested"}>My Requested Meals</Link>
                       </li>
                       <li>
-                        <Link to={"userprofile"}>My Profile</Link>
-                      </li>
-                      <li>
                         <Link to={"reviews"}>My Reviews</Link>
                       </li>
+                      <li>
+                        <Link to={"userprofile"}>My Profile</Link>
+                      </li>
+                     
                     </div>
                   )}
                 </ul>
