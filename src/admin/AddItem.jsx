@@ -28,14 +28,13 @@ const AddItem = () => {
       mealImage,
       price,
     } = data;
+    console.log(category)
     const mealImageList = { image: mealImage?.[0] };
-
 
     const res = await axiosPublic.post(imageHostingApi, mealImageList, {
       headers: {
         "content-type": "multipart/form-data",
       },
-
     });
     if (res.data.success) {
       const mealItem = {
@@ -52,19 +51,17 @@ const AddItem = () => {
         like: 0,
       };
       const mealRes = await axiosSecure.post("/meals", mealItem);
-     
-      if(mealRes.data.insertedId){
+
+      if (mealRes.data.insertedId) {
         Swal.fire({
           position: "top-end",
           icon: "success",
           title: "Your work has been saved",
           showConfirmButton: false,
-          timer: 1500
+          timer: 1500,
         });
       }
     }
-
-    
   };
 
   return (
@@ -85,7 +82,7 @@ const AddItem = () => {
           )}
         </div>
         {/* meal category */}
-        <div>
+        {/* <div>
           <p>category name</p>
           <input
             type="text"
@@ -95,6 +92,28 @@ const AddItem = () => {
           {errors.category?.type === "required" && (
             <p role="alert">category name is required</p>
           )}
+        </div> */}
+
+        <div>
+          <div className="form-control w-full my-6">
+            <label className="label">
+              <span className="label-text">Category*</span>
+            </label>
+            <select
+              defaultValue="default"
+              {...register("category", { required: true })}
+              aria-invalid={errors.category ? "true" : "false"}
+              className="select select-bordered w-full"
+            >
+              <option disabled value="default">
+                Select a category
+              </option>
+              <option value="Breakfast">Breakfast</option>
+              <option value="Lunch">Lunch</option>
+              <option value="Dinner">Dinner</option>
+            </select>
+          </div>
+          
         </div>
         {/* meal image  */}
         <div>

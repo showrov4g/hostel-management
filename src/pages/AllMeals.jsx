@@ -1,18 +1,31 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router";
 import UseAxiosPublic from "../Hooks/UseAxiosPublic";
 import MealCart from "../components/MealCart";
 
 const AllMeals = () => {
-    const axiosPublic = UseAxiosPublic()
-    const {data: meals} = useQuery({
-        queryKey: ['meals'],
-        queryFn: async()=>{
-            const res = await axiosPublic.get('/meals')
-            return res.data;
-        }
-    })
+  const axiosPublic = UseAxiosPublic();
+  const [category, setCategory] = useState("all");
+  const [priceRange, setPriceRange] = useState({ minPrice: 0, maxPrice: 100 });
+  const { data: meals, isLoading } = useQuery({
+    queryKey: ["meals", category, priceRange],
+    queryFn: async () => {
+      const queryParams = `?minPrice=${priceRange.minPrice}&maxPrice=${priceRange.maxPrice}`;
+      const data = (category === "all" ? `/meals/${queryParams}` : `/meals/category/${category}${queryParams}`);
+   
+
+      const res = await axiosPublic.get(data);
+      return res.data;
+    },
+  });
+  const handlePriceChange=(e)=>{
+    
+    const {name,value} = e.target;
+    setPriceRange(prev=>({...prev, [name]:value}))
+
+
+  }
 
   return (
     <div className="flex gap-4 ">
@@ -34,28 +47,55 @@ const AllMeals = () => {
               aria-label="close sidebar"
               className="drawer-overlay"
             ></label>
-            <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
-              {/* Sidebar content here */}
-              <li>
-                <Link>All meals</Link>
-              </li>
-              <li>
-                <Link>Breakfast</Link>
-              </li>
-              <li>
-                <Link>lunch</Link>
-              </li>
-              <li>
-                <Link>Dinner</Link>
-              </li>
-            </ul>
+            <div>
+              <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+                {/* Sidebar content here */}
+                <li>
+                  <button onClick={() => setCategory("all")}>All meals</button>
+                </li>
+                <li>
+                  <button onClick={() => setCategory("Breakfast")}>
+                    breakfast
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => setCategory("Lunch")}>Lunch</button>
+                </li>
+                <li>
+                  <button onClick={() => setCategory("Dinner")}>Dinner</button>
+                </li>
+                <li className="mt-4">
+                  <div>
+                    <label htmlFor="minPrice">Min Price</label>
+                    <input
+                      type="number"
+                      name="minPrice"
+                      value={priceRange.minPrice}
+                      onChange={handlePriceChange}
+                      className="input input-bordered w-full mb-2"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="maxPrice">Max Price</label>
+                    <input
+                      type="number"
+                      name="maxPrice"
+                      value={priceRange.maxPrice}
+                      onChange={handlePriceChange}
+                      className="input input-bordered w-full mb-2"
+                    />
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div></div>
           </div>
         </div>
       </div>
       <div className="flex-1 grid grid-cols-3 gap-4">
-        {
-            meals?.map(item=><MealCart key={item._id} item={item}></MealCart>)
-        }
+        {meals?.map((item) => (
+          <MealCart key={item._id} item={item}></MealCart>
+        ))}
       </div>
     </div>
   );

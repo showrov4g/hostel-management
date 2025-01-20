@@ -9,11 +9,13 @@ import { toast } from "react-toastify";
 const MealsDetails = () => {
   // State variable
   const [like, setLike] = useState(false);
+  const [userRating, setUserRating] = useState(0);
+  // ======
   const { user } = useContext(AuthContext);
   const { id } = useParams();
   const axiosSecure = UseAxiosSecure();
   const navigate = useNavigate();
-  const location = useLocation()
+  const location = useLocation();
 
   // Fetch meal details
   const { data: details, refetch } = useQuery({
@@ -34,33 +36,69 @@ const MealsDetails = () => {
     }
     const res = await axiosSecure.patch(`/meals/like/${id}`, {
       userId: user?.uid,
-    })
+    });
     // ====
     if (res.data.modifiedCount) {
-      setLike(!like); 
-      refetch(); 
-      toast.success("you have liked this meal")
+      setLike(!like);
+      refetch();
+      toast.success("you have liked this meal");
     }
   };
 
-  // handle request meal 
+  // handle request meal
 
-  const handleMealRequest =(details)=>{
+  const handleMealRequest = (details) => {
     const mealRequest = {
       details,
       request_data: new Date(),
-      status: "panning"
+      status: "panning",
+    };
+    if (!user) {
+      toast.error("You need to login first");
+      return navigate("/login");
     }
-    if(!user){
-      toast.error("You need to login first")
-      return navigate('/login')
+    axiosSecure
+      .post("/meals/request", mealRequest)
+      .then((res) => {})
+      .catch((err) => {
+        toast.error("You need an subscription");
+      });
+  };
+  // rating
+  const handleRating = async () => {
+    if (!user) {
+      toast.error("You need to login first");
+      return navigate("/login");
     }
-    axiosSecure.post('http://localhost:5000/meals/request',mealRequest)
-    .then(res=>{})
-    .catch(err=>{
-      toast.error("You need an subscription")
-    })
-  }
+    if (userRating < 1 || userRating > 5) {
+      toast.error("Please provide a rating between 1 and 5");
+      return;
+    }
+
+    const res = await axiosSecure.post(`/meals/rate/${id}`, {
+      rating: userRating,
+    });
+    console.log(res);
+    if (res.data.message) {
+      toast.success(res.data.message);
+      refetch();
+    }
+
+   
+  };
+  // =================
+  const handleReviews = (e) => {
+    e.preventDefault();
+    const data = e.target.reviews.value;
+    const review = {
+      userid: id,
+      userName : user?.displayName,
+      reviewsText:data,
+      createdAt: new Date(),
+    };
+    axiosSecure.post(`/meals/review/${id}`, {review})
+    .then(res=> console.log(res))
+  };
 
   return (
     <div className="w-11/12 mx-auto">
@@ -75,12 +113,14 @@ const MealsDetails = () => {
           <p>{details?.description}</p>
           <p>{details?.time}</p>
           <p>
-            <Rating
-              readOnly
-              style={{ maxWidth: 250 }}
-              value={details?.rating}
-            />
-            {details?.rating}
+            <p>
+              <Rating
+                readOnly
+                style={{ maxWidth: 250 }}
+                value={details?.averageRating || 0}
+              />
+              ({details?.ratingCount || 0} ratings)
+            </p>
           </p>
           <p>Likes: {details?.likes}</p>
           <div className="card-actions justify-end">
@@ -90,11 +130,37 @@ const MealsDetails = () => {
             >
               {like ? "Unlike" : "Like"}
             </button>
-            <button onClick={()=>handleMealRequest(details)} className="btn btn-primary">Meal Request</button>
+            <button
+              onClick={() => handleMealRequest(details)}
+              className="btn btn-primary"
+            >
+              Meal Request
+            </button>
           </div>
+          {/* ==================== */}
+          {/* Rating Submission */}
           <div>
-            <p>Write a review</p>
-            <textarea placeholder="Write a review" name="" id=""></textarea>
+            <h3>Rate this Meal</h3>
+            <Rating
+              value={userRating}
+              onChange={setUserRating}
+              style={{ maxWidth: 250 }}
+            />
+            <button onClick={handleRating} className="btn btn-primary mt-2">
+              Submit Rating
+            </button>
+          </div>
+          {/* ================== */}
+          <div>
+            <form onSubmit={handleReviews}>
+              <p>Write a review</p>
+              <textarea
+                placeholder="Write a review"
+                name="reviews"
+                id=""
+              ></textarea>
+              <input type="submit" value={"Submit"} />
+            </form>
           </div>
         </div>
       </div>
