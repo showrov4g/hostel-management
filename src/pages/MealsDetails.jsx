@@ -18,14 +18,24 @@ const MealsDetails = () => {
   const location = useLocation();
 
   // Fetch meal details
-  const { data: details, refetch } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ["details", id],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/meals/${id}`);
-      setLike(details?.likedBy?.includes(user?.uid));
-      return res.data;
+      const [mealDetails, upcomingDetails] = await Promise.all([
+        axiosSecure.get(`/meals/${id}`),
+        axiosSecure.get(`/upcoming-meal/${id}`)
+      ]);
+
+      const combineData = {
+          mealDetails: mealDetails.data,
+          upcomingDetails: upcomingDetails.data
+      }
+      // const res = await axiosSecure.get(`/meals/${id}`);
+      // setLike(details?.likedBy?.includes(user?.uid));
+      return combineData;
     },
   });
+
 
   // Handle Like/Unlike API call
   const handleLike = async () => {
@@ -48,10 +58,12 @@ const MealsDetails = () => {
   // handle request meal
 
   const handleMealRequest = (details) => {
+    const {} = details
     const mealRequest = {
       details,
       request_data: new Date(),
       status: "panning",
+      email: user?.email
     };
     if (!user) {
       toast.error("You need to login first");
@@ -102,27 +114,28 @@ const MealsDetails = () => {
 
   return (
     <div className="w-11/12 mx-auto">
-      <div className="card bg-base-100 shadow-xl">
+      {
+        data && <div className="card bg-base-100 shadow-xl">
         <figure>
-          <img src={details?.mealImage} alt={details?.mealName} />
+          <img src={data.mealDetails?.mealImage || data.upcomingDetails?.mealImage} alt={data.mealDetails?.mealName} />
         </figure>
         <div className="card-body">
-          <h2 className="card-title">Meal Name: {details?.mealName}</h2>
-          <p>{details?.distributer_name}</p>
-          <p>{details?.ingredient}</p>
-          <p>{details?.description}</p>
-          <p>{details?.time}</p>
+          <h2 className="card-title">Meal Name: {data.mealDetails?.mealName || data.upcomingDetails?.mealName}</h2>
+          <p>{data.mealDetails?.distributer_name || data.upcomingDetails?.distributer_name}</p>
+          <p>{data.mealDetails?.ingredient || data.upcomingDetails?.ingredient}</p>
+          <p>{data.mealDetails?.description || data.upcomingDetails?.description}</p>
+          <p>{data.mealDetails?.time || data.upcomingDetails?.time}</p>
           <p>
             <p>
               <Rating
                 readOnly
                 style={{ maxWidth: 250 }}
-                value={details?.averageRating || 0}
+                value={data.mealDetails?.averageRating || 0 || data.upcomingDetails?.averageRating||0}
               />
-              ({details?.ratingCount || 0} ratings)
+              ({data.mealDetails?.ratingCount || 0 || data.upcomingDetails?.ratingCount||0} ratings)
             </p>
           </p>
-          <p>Likes: {details?.likes}</p>
+          <p>Likes: {data.mealDetails?.likes || data.upcomingDetails?.likes}</p>
           <div className="card-actions justify-end">
             <button
               onClick={handleLike}
@@ -131,7 +144,7 @@ const MealsDetails = () => {
               {like ? "Unlike" : "Like"}
             </button>
             <button
-              onClick={() => handleMealRequest(details)}
+              onClick={() => handleMealRequest(data.mealDetails)}
               className="btn btn-primary"
             >
               Meal Request
@@ -164,7 +177,9 @@ const MealsDetails = () => {
           </div>
         </div>
       </div>
+      }
     </div>
+    
   );
 };
 

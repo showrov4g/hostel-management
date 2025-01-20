@@ -13,9 +13,11 @@ import { useState } from "react";
 import AllMeals from "../pages/AllMeals";
 import MealsDetails from "../pages/MealsDetails";
 import AddUpComingMeal from "../admin/AddUpComingMeal";
+import UserProfile from "../admin/UserProfile";
+import RequestedMeals from "../admin/RequestedMeals";
 
 const Router = () => {
-  const [isAdmin, setIsAdmin] = useState(true)
+  const [isAdmin, setIsAdmin] = useState(true);
   return (
     <div>
       <BrowserRouter>
@@ -28,18 +30,37 @@ const Router = () => {
               element={<UpcomingMEals></UpcomingMEals>}
             ></Route>
             <Route path="/login" element={<Login></Login>}></Route>
-            <Route path="/mealsdetails/:id" element={<MealsDetails></MealsDetails>}></Route>
-         
+            <Route
+              path="/mealsdetails/:id"
+              element={<MealsDetails></MealsDetails>}
+            ></Route>
           </Route>
           {/* admin route  */}
           <Route>
             <Route path="dashboard" element={<AdminDashboard></AdminDashboard>}>
-            <Route path="cart" element={<Cart></Cart>}></Route>
-            
-            <Route path="additem" element={<AdminRoute><AddItem></AddItem></AdminRoute>}></Route>
-            <Route path="alluser" element={<AllUser></AllUser>}></Route>
-            <Route path="addUpcomingMeal" element={<AddUpComingMeal></AddUpComingMeal>}></Route>
-
+              <Route
+                path="additem"
+                element={
+                  <AdminRoute>
+                    <AddItem></AddItem>
+                  </AdminRoute>
+                }
+              ></Route>
+              <Route path="alluser" element={<AllUser></AllUser>}></Route>
+              <Route
+                path="addUpcomingMeal"
+                element={<AddUpComingMeal></AddUpComingMeal>}
+              ></Route>
+              {/* users  */}
+              <Route path="cart" element={<Cart></Cart>}></Route>
+              <Route
+                path="userprofile"
+                element={<UserProfile></UserProfile>}
+              ></Route>
+              <Route
+                path="requested"
+                element={<RequestedMeals></RequestedMeals>}
+              ></Route>
             </Route>
           </Route>
         </Routes>

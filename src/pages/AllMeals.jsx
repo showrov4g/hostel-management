@@ -11,10 +11,9 @@ const AllMeals = () => {
   const { data: meals, isLoading } = useQuery({
     queryKey: ["meals", category, priceRange],
     queryFn: async () => {
-      const queryParams = `?minPrice=${priceRange.minPrice}&maxPrice=${priceRange.maxPrice}`;
-      const data = (category === "all" ? `/meals/${queryParams}` : `/meals/category/${category}${queryParams}`);
+      const query = `?minPrice=${priceRange.minPrice}&maxPrice=${priceRange.maxPrice}`;
+      const data = (category === "all" ? `/meals/${query}` : `/meals/category/${category}${query}`);
    
-
       const res = await axiosPublic.get(data);
       return res.data;
     },
