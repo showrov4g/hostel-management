@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import UseAxiosSecure from "../Hooks/UseAxiosSecure";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { Rating } from "@smastrom/react-rating";
@@ -16,6 +16,9 @@ const MealsDetails = () => {
   const axiosSecure = UseAxiosSecure();
   const navigate = useNavigate();
   const location = useLocation();
+  const [mealName, setMealName]= useState('');
+
+
 
   // Fetch meal details
   const { data, refetch } = useQuery({
@@ -35,6 +38,11 @@ const MealsDetails = () => {
       return combineData;
     },
   });
+
+useEffect(()=>{
+  setMealName(data?.mealDetails?.mealName)
+},[data])
+  
 
   // Handle Like/Unlike API call
   const handleLike = async () => {
@@ -57,7 +65,6 @@ const MealsDetails = () => {
   // handle request meal
 
   const handleMealRequest = (details) => {
-    console.log(details);
     const { mealName, likes, review } = details;
     const mealRequest = {
       mealName,
@@ -92,25 +99,27 @@ const MealsDetails = () => {
     const res = await axiosSecure.post(`/meals/rate/${id}`, {
       rating: userRating,
     });
-    console.log(res);
     if (res.data.message) {
       toast.success(res.data.message);
       refetch();
     }
   };
+  
   // =================
   const handleReviews = (e) => {
     e.preventDefault();
     const data = e.target.reviews.value;
+
     const review = {
-      userid: id,
-      userName: user?.displayName,
+      mealName: mealName,
+      userName: (user?.displayName),
+      userEmail: (user?.email),
       reviewsText: data,
       createdAt: new Date(),
     };
     axiosSecure
-      .post(`/meals/review/${id}`, { review })
-      .then((res) => console.log(res));
+      .post(`/meals/review`, review)
+      .then((res) => toast.success('Your reviews Posted'));
   };
 
   return (
@@ -200,6 +209,7 @@ const MealsDetails = () => {
                   placeholder="Write a review"
                   name="reviews"
                   id=""
+                  required
                 ></textarea>
                 <input type="submit" value={"Submit"} />
               </form>
