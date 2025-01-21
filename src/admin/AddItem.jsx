@@ -28,7 +28,6 @@ const AddItem = () => {
       mealImage,
       price,
     } = data;
-    console.log(category)
     const mealImageList = { image: mealImage?.[0] };
 
     const res = await axiosPublic.post(imageHostingApi, mealImageList, {

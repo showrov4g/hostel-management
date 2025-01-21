@@ -12,7 +12,6 @@ const UpcomingMEals = () => {
             return res.data;
         }
     })
-    console.log(upcoming);
     return (
         <div>
             <h1>Your Upcoming meals</h1>

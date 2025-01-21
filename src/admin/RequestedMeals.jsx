@@ -34,7 +34,7 @@ const RequestedMeals = () => {
         //   });
         const res = await axiosSecure.delete(`/meals/request/${_id}`);
         if (res.data.deletedCount) {
-            refetch();
+          refetch();
           Swal.fire({
             title: "Deleted!",
             text: "Your file has been deleted.",
@@ -49,46 +49,52 @@ const RequestedMeals = () => {
     <div>
       <h1>My requested Meal: {requestMeal?.length}</h1>
       {/* table  */}
-      <div>
-        <div className="overflow-x-auto">
-          <table className="table">
-            {/* head */}
-            <thead>
-              <tr>
-                <th>SL:</th>
-                <th>Meal name</th>
-                <th>likes</th>
-                <th>reviews count</th>
-                <th>status</th>
-                <th>manage</th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* row 1 */}
+      {requestMeal?.length !== 0 ? (
+        <div>
+          <div className="overflow-x-auto">
+            <table className="table">
+              {/* head */}
+              <thead>
+                <tr>
+                  <th>SL:</th>
+                  <th>Meal name</th>
+                  <th>likes</th>
+                  <th>reviews count</th>
+                  <th>status</th>
+                  <th>manage</th>
+                </tr>
+              </thead>
+              <tbody>
+                {/* row 1 */}
 
-              {requestMeal?.map((item, index) => (
-                <>
-                  <tr className="bg-base-200">
-                    <th>{index + 1}</th>
-                    <td>{item.mealName}</td>
-                    <td>{item?.review?.length}</td>
-                    <td>{item.likes}</td>
-                    <td>{item.status}</td>
-                    <td>
-                      <button
-                        onClick={() => handleCancel(item._id)}
-                        className="btn btn-primary"
-                      >
-                        Cancel
-                      </button>
-                    </td>
-                  </tr>
-                </>
-              ))}
-            </tbody>
-          </table>
+                {requestMeal?.map((item, index) => (
+                  <>
+                    <tr className="bg-base-200">
+                      <th>{index + 1}</th>
+                      <td>{item.mealName}</td>
+                      <td>{item?.review?.length}</td>
+                      <td>{item.likes}</td>
+                      <td>{item.status}</td>
+                      <td>
+                        <button
+                          onClick={() => handleCancel(item._id)}
+                          className="btn btn-primary"
+                        >
+                          Cancel
+                        </button>
+                      </td>
+                    </tr>
+                  </>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div>
+          <p>There is no request product</p>
+        </div>
+      )}
     </div>
   );
 };

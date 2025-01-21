@@ -17,9 +17,9 @@ const MealsDetails = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [mealName, setMealName]= useState('');
+  const [likes, setLikes] = useState('')
 
-
-
+  console.log(likes)
   // Fetch meal details
   const { data, refetch } = useQuery({
     queryKey: ["details", id],
@@ -42,7 +42,9 @@ const MealsDetails = () => {
 useEffect(()=>{
   setMealName(data?.mealDetails?.mealName)
 },[data])
-  
+useEffect(()=>{
+  setLikes(data?.mealDetails?.likes)
+},[])
 
   // Handle Like/Unlike API call
   const handleLike = async () => {
@@ -116,6 +118,7 @@ useEffect(()=>{
       email: (user?.email),
       reviewsText: data,
       createdAt: new Date(),
+      like: likes,
     };
     axiosSecure
       .post(`/meals/review`, review)
