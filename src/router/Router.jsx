@@ -17,6 +17,7 @@ import UserProfile from "../admin/UserProfile";
 import RequestedMeals from "../admin/RequestedMeals";
 import MyReviews from "../admin/MyReviews";
 import AdminProfile from "../admin/AdminProfile";
+import AllMealsAddedbyAdmin from "../admin/AllMealsAddedbyAdmin";
 
 const Router = () => {
   const [isAdmin, setIsAdmin] = useState(true);
@@ -56,6 +57,10 @@ const Router = () => {
               <Route
                 path="adminProfile"
                 element={<AdminRoute><AdminProfile></AdminProfile></AdminRoute>}
+              ></Route>
+              <Route
+                path="allAddedMealsAdmin"
+                element={<AdminRoute><AllMealsAddedbyAdmin></AllMealsAddedbyAdmin> </AdminRoute>}
               ></Route>
               {/* users route */}
               <Route path="cart" element={<Cart></Cart>}></Route>

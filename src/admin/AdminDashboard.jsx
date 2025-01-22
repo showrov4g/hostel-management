@@ -65,6 +65,11 @@ const AdminDashboard = () => {
                           <FaUserCircle></FaUserCircle> Admin Profile
                         </Link>
                       </li>
+                      <li>
+                        <Link to={"allAddedMealsAdmin"}>
+                          <FaUserCircle></FaUserCircle> All Meals
+                        </Link>
+                      </li>
                     </div>
                   ) : (
                     // user 
