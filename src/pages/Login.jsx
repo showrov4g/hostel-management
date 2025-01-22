@@ -95,8 +95,9 @@ const Login = () => {
           role: "user",
           subscription: "Bronze"
         }
+        navigate(location?.state ? location.state : "/");
         if(res.user){
-          axiosPublic.post('/users', usersInfo)
+          axiosPublic.patch('/users', usersInfo)
           .then(res=>{
             if(res.data.insertedId){
               Swal.fire({
@@ -106,7 +107,7 @@ const Login = () => {
                 showConfirmButton: false,
                 timer: 1500,
               });
-              navigate(location?.state ? location.state : "/");
+              
             }
           })
         }

@@ -16,6 +16,7 @@ import AddUpComingMeal from "../admin/AddUpComingMeal";
 import UserProfile from "../admin/UserProfile";
 import RequestedMeals from "../admin/RequestedMeals";
 import MyReviews from "../admin/MyReviews";
+import AdminProfile from "../admin/AdminProfile";
 
 const Router = () => {
   const [isAdmin, setIsAdmin] = useState(true);
@@ -38,7 +39,7 @@ const Router = () => {
           </Route>
           {/* admin route  */}
           <Route>
-            <Route path="dashboard" element={<AdminDashboard></AdminDashboard>}>
+            <Route path="dashboard" element={<PrivateRoute><AdminDashboard></AdminDashboard></PrivateRoute>}>
               <Route
                 path="additem"
                 element={
@@ -47,12 +48,16 @@ const Router = () => {
                   </AdminRoute>
                 }
               ></Route>
-              <Route path="alluser" element={<AllUser></AllUser>}></Route>
+              <Route path="alluser" element={<AdminRoute><AllUser></AllUser></AdminRoute>}></Route>
               <Route
                 path="addUpcomingMeal"
-                element={<AddUpComingMeal></AddUpComingMeal>}
+                element={<AdminRoute><AddUpComingMeal></AddUpComingMeal></AdminRoute>}
               ></Route>
-              {/* users  */}
+              <Route
+                path="adminProfile"
+                element={<AdminRoute><AdminProfile></AdminProfile></AdminRoute>}
+              ></Route>
+              {/* users route */}
               <Route path="cart" element={<Cart></Cart>}></Route>
               <Route
                 path="userprofile"

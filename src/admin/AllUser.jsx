@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import UseAxiosSecure from "../Hooks/UseAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import { MdDelete } from "react-icons/md";
@@ -8,11 +8,24 @@ import { FaUser } from "react-icons/fa";
 
 const AllUser = () => {
   const axiosSecure = UseAxiosSecure();
-  const { deleteLoginUser } = useContext(AuthContext);
-  const { data: users = [0], refetch } = useQuery({
-    queryKey: ["users"],
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+
+  // const { data: users = [0], refetch } = useQuery({
+  //   queryKey: ["users"],
+  //   queryFn: async () => {
+  //     const res = await axiosSecure.get("/users");
+  //     return res.data;
+  //   },
+  // });
+
+  const { data: users = [], refetch } = useQuery({
+    queryKey: ["users", name, email],
     queryFn: async () => {
-      const res = await axiosSecure.get("/users");
+      const params = {};
+      if (name) params.name = name;
+      if (email) params.email = email;
+      const res = await axiosSecure.get("/user/search", { params });
       return res.data;
     },
   });
@@ -56,7 +69,7 @@ const AllUser = () => {
       if (result.isConfirmed) {
         axiosSecure.patch(`users/admin/${item?._id}`).then((res) => {
           if (res.data.modifiedCount) {
-            refetch()
+            refetch();
             Swal.fire({
               title: `${item.name}`,
               text: "Your Are now admin",
@@ -71,6 +84,26 @@ const AllUser = () => {
   return (
     <div>
       <h1 className="font-bold text-3xl">USERS: {users.length}</h1>
+      {/* Search Section */}
+      <div className="mb-4">
+        <input
+          type="text"
+          placeholder="Search by name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="input input-bordered mr-2"
+        />
+        <input
+          type="text"
+          placeholder="Search by email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="input input-bordered mr-2"
+        />
+        <button onClick={refetch} className="btn btn-primary">
+          Search
+        </button>
+      </div>
       {/* user data table  */}
       <div>
         <div className="overflow-x-auto">
@@ -82,6 +115,8 @@ const AllUser = () => {
                 <th>Username</th>
                 <th>Email</th>
                 <th>Role</th>
+                <th>subscription</th>
+
                 <th>Action</th>
               </tr>
             </thead>
@@ -102,6 +137,7 @@ const AllUser = () => {
                       </button>
                     )}
                   </td>
+                  <td>{item?.subscription}</td>
                   <td>
                     <button onClick={() => handleDelete(item)}>
                       {" "}

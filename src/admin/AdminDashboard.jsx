@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaUser } from "react-icons/fa";
+import { FaUser, FaUserCircle } from "react-icons/fa";
 import { Link, NavLink, Outlet } from "react-router";
 import UseAdmin from "../Hooks/UseAdmin";
 
@@ -45,6 +45,7 @@ const AdminDashboard = () => {
                 <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
                   {/* Sidebar content here */}
                   {isAdmin ? (
+                    // admin 
                     <div>
                       <li>
                         <Link to={"additem"}>Add an item</Link>
@@ -58,8 +59,15 @@ const AdminDashboard = () => {
                           <FaUser></FaUser> All user
                         </Link>
                       </li>
+
+                      <li>
+                        <Link to={"adminProfile"}>
+                          <FaUserCircle></FaUserCircle> Admin Profile
+                        </Link>
+                      </li>
                     </div>
                   ) : (
+                    // user 
                     <div>
                       <li>
                         <Link to={"requested"}>My Requested Meals</Link>
