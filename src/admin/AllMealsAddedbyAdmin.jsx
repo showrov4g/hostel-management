@@ -2,7 +2,29 @@ import UseMeals from "../Hooks/UseMeals";
 
 const AllMealsAddedbyAdmin = () => {
   const [meals, refetch] = UseMeals();
-  console.log(meals);
+
+  const handleDelete = (_id)=>{
+    wal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success"
+        });
+      }
+    });
+  }
+
+
+  
   return (
     <div>
       <h1>You Have Added: {meals?.length} Meals</h1>
@@ -32,7 +54,7 @@ const AllMealsAddedbyAdmin = () => {
                 <td>{item?.review?.length}</td>
                 <td>{item?.rating}</td>
                 <td>{item?.distributer_name}</td>
-                <td className="flex flex-col md:flex-row">
+                <td className="flex flex-col md:flex-row gap-3">
                     <button>Update</button>
                     <button>Delete</button>
                     <button>Views meals</button>
