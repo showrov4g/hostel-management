@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import UseAxiosSecure from "../Hooks/UseAxiosSecure";
+import { Link } from "react-router";
 
 const AllReviews = () => {
   const axiosSecure = UseAxiosSecure();
@@ -11,7 +12,8 @@ const AllReviews = () => {
       return res.data;
     },
   });
-  console.log(reviews)
+  console.log(reviews);
+
   return (
     <div>
       <h1>All reviews: {reviews.length} </h1>
@@ -21,22 +23,28 @@ const AllReviews = () => {
           {/* head */}
           <thead>
             <tr>
-              <th></th>
-              <th>Name</th>
-              <th>Job</th>
-              <th>Favorite Color</th>
+              <th>SL</th>
+              <th>meal title</th>
+              <th>likes</th>
+              <th>reviews_count</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
             {/* row 1 */}
-            <tr>
-              <th>1</th>
-              <td>Cy Ganderton</td>
-              <td>Quality Control Specialist</td>
-              <td>Blue</td>
-            </tr>
-       
-           
+
+            {reviews?.map((item, index) => (
+              <tr>
+                <th>{index + 1}</th>
+                <td>{item?.mealName}</td>
+                <td>{item?.likes}</td>
+                <td>{item?.reviewsCount}</td>
+                <td>
+                  <button>Delete</button>
+                  <button><Link to={`/mealsdetails/${item?.productId}`}>view meal</Link></button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
