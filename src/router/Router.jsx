@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import MainLayout from "../Layout/MainLayout";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
-import UpcomingMEals from "../pages/UpcomingMEals";
+
 import AdminDashboard from "../admin/AdminDashboard";
 import AdminRoute from "./AdminRoute";
 import PrivateRoute from "./PrivateRoute";
@@ -18,6 +18,9 @@ import RequestedMeals from "../admin/RequestedMeals";
 import MyReviews from "../admin/MyReviews";
 import AdminProfile from "../admin/AdminProfile";
 import AllMealsAddedbyAdmin from "../admin/AllMealsAddedbyAdmin";
+import UpdateMealsDetails from "../admin/UpdateMealsDetails";
+import UpcomingMeals from "../pages/UpcomingMEals";
+import AllReviews from "../admin/AllReviews";
 
 const Router = () => {
   const [isAdmin, setIsAdmin] = useState(true);
@@ -29,8 +32,8 @@ const Router = () => {
             <Route path="/" element={<Home></Home>}></Route>
             <Route path="/allmeals" element={<AllMeals></AllMeals>}></Route>
             <Route
-              path="/upcoming-meals"
-              element={<UpcomingMEals></UpcomingMEals>}
+              path="/upcomingmeals"
+              element={<PrivateRoute><UpcomingMeals></UpcomingMeals></PrivateRoute>}
             ></Route>
             <Route path="/login" element={<Login></Login>}></Route>
             <Route
@@ -61,6 +64,14 @@ const Router = () => {
               <Route
                 path="allAddedMealsAdmin"
                 element={<AdminRoute><AllMealsAddedbyAdmin></AllMealsAddedbyAdmin> </AdminRoute>}
+              ></Route>
+              <Route
+                path="updateMeals/:id"
+                element={<AdminRoute><UpdateMealsDetails></UpdateMealsDetails></AdminRoute>}
+              ></Route>
+              <Route
+                path="allreviews"
+                element={<AdminRoute><AllReviews></AllReviews></AdminRoute>}
               ></Route>
               {/* users route */}
               <Route path="cart" element={<Cart></Cart>}></Route>

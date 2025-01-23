@@ -3,7 +3,7 @@ import React from 'react';
 import UseAxiosPublic from '../Hooks/UseAxiosPublic';
 import MealCart from '../components/MealCart';
 
-const UpcomingMEals = () => {
+const UpcomingMeals = () => {
     const axiosPublic = UseAxiosPublic()
     const {data: upcoming}= useQuery({
         queryKey: ['upcomingMeals'],
@@ -24,4 +24,4 @@ const UpcomingMEals = () => {
     );
 };
 
-export default UpcomingMEals;
+export default UpcomingMeals;

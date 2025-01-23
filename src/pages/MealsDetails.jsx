@@ -5,6 +5,7 @@ import { useLocation, useNavigate, useParams } from "react-router";
 import { Rating } from "@smastrom/react-rating";
 import { AuthContext } from "../context/AuthProvider";
 import { toast } from "react-toastify";
+import { use } from "react";
 
 const MealsDetails = () => {
   // State variable
@@ -16,16 +17,19 @@ const MealsDetails = () => {
   const axiosSecure = UseAxiosSecure();
   const navigate = useNavigate();
   const location = useLocation();
-  const [mealName, setMealName]= useState('');
-  const [likes, setLikes] = useState('')
+  const [mealName, setMealName] = useState("");
+  const [likes, setLikes] = useState("");
+  const [reviewsCount, setReviewsCount] = useState(0);
+  const [mealID, setMealId] = useState();
+  const [rating, setRating]= useState(0)
+  console.log(rating);
 
-  console.log(likes)
   // Fetch meal details
   const { data, refetch } = useQuery({
     queryKey: ["details", id],
     queryFn: async () => {
       const [mealDetails, upcomingDetails] = await Promise.all([
-        axiosSecure.get(`/meals/${id}`),
+        axiosSecure.get(`/meals/meal/${id}`),
         axiosSecure.get(`/upcoming-meal/${id}`),
       ]);
 
@@ -33,18 +37,26 @@ const MealsDetails = () => {
         mealDetails: mealDetails.data,
         upcomingDetails: upcomingDetails.data,
       };
-      // const res = await axiosSecure.get(`/meals/${id}`);
-      // setLike(details?.likedBy?.includes(user?.uid));
       return combineData;
     },
   });
+  console.log(mealName, likes, reviewsCount, mealID);
 
-useEffect(()=>{
-  setMealName(data?.mealDetails?.mealName)
-},[data])
-useEffect(()=>{
-  setLikes(data?.mealDetails?.likes)
-},[])
+  useEffect(() => {
+    setMealName(data?.mealDetails?.mealName);
+  }, [data]);
+  useEffect(() => {
+    setLikes(data?.mealDetails?.likes);
+  }, [data]);
+  useEffect(() => {
+    setReviewsCount(data?.mealDetails?.ratingCount);
+  }, [data]);
+  useEffect(() => {
+    setMealId(data?.mealDetails?._id);
+  }, [data]);
+  useEffect(()=>{
+    setRating(data?.mealDetails?.ratings?.length)
+  },[data])
 
   // Handle Like/Unlike API call
   const handleLike = async () => {
@@ -67,7 +79,7 @@ useEffect(()=>{
   // handle request meal
 
   const handleMealRequest = (details) => {
-    const { mealName, likes, review } = details;
+    const { mealName, likes } = details;
     const mealRequest = {
       mealName,
       likes,
@@ -91,38 +103,44 @@ useEffect(()=>{
   const handleRating = async () => {
     if (!user) {
       toast.error("You need to login first");
-      return navigate("/login");
+      return navigate("/login", { state: { from: location } });
     }
     if (userRating < 1 || userRating > 5) {
       toast.error("Please provide a rating between 1 and 5");
       return;
     }
-
-    const res = await axiosSecure.post(`/meals/rate/${id}`, {
-      rating: userRating,
-    });
-    if (res.data.message) {
-      toast.success(res.data.message);
-      refetch();
-    }
+    axiosSecure
+      .post(`/meals/rate/${id}`, { rating: userRating })
+      .then((res) => {
+        if (res.data.message) {
+          toast.success(res.data.message);
+          refetch();
+        }
+      })
+      .catch(() => {
+        toast.error("Failed to submit rating. Please try again later.");
+      });
   };
-  
+
   // =================
   const handleReviews = (e) => {
     e.preventDefault();
-    const data = e.target.reviews.value;
+    const reviewText = e.target.reviews.value;
 
     const review = {
-      mealName: mealName,
-      userName: (user?.displayName),
-      email: (user?.email),
-      reviewsText: data,
+      reviewsText: reviewText,
+      userName: user?.displayName,
+      email: user?.email,
       createdAt: new Date(),
-      like: likes,
+      mealName,
+      likes,
+      reviewsCount,
     };
+
     axiosSecure
-      .post(`/meals/review`, review)
-      .then((res) => toast.success('Your reviews Posted'));
+      .post(`/meals/review/${id}`, review)
+      .then((res) => console.log(res));
+    e.target.reset();
   };
 
   return (
@@ -168,10 +186,10 @@ useEffect(()=>{
                 />
                 (
                 {data.mealDetails?.ratingCount ||
-                  0 ||
+                  rating ||
                   data.upcomingDetails?.ratingCount ||
-                  0}{" "}
-                ratings)
+                  rating}Rating)
+
               </p>
             </p>
             <p>
