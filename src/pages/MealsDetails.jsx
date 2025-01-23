@@ -21,7 +21,7 @@ const MealsDetails = () => {
   const [likes, setLikes] = useState("");
   const [reviewsCount, setReviewsCount] = useState(0);
   const [mealID, setMealId] = useState();
-  const [rating, setRating]= useState(0)
+  const [rating, setRating] = useState(0);
   console.log(rating);
 
   // Fetch meal details
@@ -40,8 +40,14 @@ const MealsDetails = () => {
       return combineData;
     },
   });
-  console.log(mealName, likes, reviewsCount, mealID);
-
+  // meal review data fetching
+  const { data: review } = useQuery({
+    queryKey: ["reviews"],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/reviews/${id}`);
+      return res.data;
+    },
+  });
   useEffect(() => {
     setMealName(data?.mealDetails?.mealName);
   }, [data]);
@@ -54,9 +60,9 @@ const MealsDetails = () => {
   useEffect(() => {
     setMealId(data?.mealDetails?._id);
   }, [data]);
-  useEffect(()=>{
-    setRating(data?.mealDetails?.ratings?.length)
-  },[data])
+  useEffect(() => {
+    setRating(data?.mealDetails?.ratings?.length);
+  }, [data]);
 
   // Handle Like/Unlike API call
   const handleLike = async () => {
@@ -144,11 +150,12 @@ const MealsDetails = () => {
   };
 
   return (
-    <div className="w-11/12 mx-auto">
+    <div className=" w-full md:w-10/12 mx-auto">
       {data && (
-        <div className="card bg-base-100 shadow-xl">
-          <figure>
+        <div className="card bg-base-100 shadow-xl rounded-2xl">
+          <figure className="my-5">
             <img
+              className="w-[80%] rounded-xl"
               src={
                 data.mealDetails?.mealImage || data.upcomingDetails?.mealImage
               }
@@ -156,27 +163,50 @@ const MealsDetails = () => {
             />
           </figure>
           <div className="card-body">
-            <h2 className="card-title">
-              Meal Name:{" "}
-              {data.mealDetails?.mealName || data.upcomingDetails?.mealName}
+            <h2 className="card-title text-2xl md:text-4xl font-semibold text-gray-800 flex flex-col md:flex-row items-start justify-start">
+              Meal Name:
+              <span className="text-gray-600 uppercase">
+                {data.mealDetails?.mealName || data.upcomingDetails?.mealName}
+              </span>
             </h2>
-            <p>
-              {data.mealDetails?.distributer_name ||
-                data.upcomingDetails?.distributer_name}
+            <p className="text-xl md:text-2xl font-semibold text-gray-800 capitalize flex flex-col md:flex-row items-start justify-start">
+              {" "}
+              distributor name:
+              <span className="text-gray-600">
+                {" "}
+                {data.mealDetails?.distributer_name ||
+                  data.upcomingDetails?.distributer_name}
+              </span>
             </p>
-            <p>
-              {data.mealDetails?.ingredient || data.upcomingDetails?.ingredient}
+            <p className="text-xl md:text-2xl  font-semibold text-gray-800 capitalize flex flex-col md:flex-row items-start justify-start">
+              ingredients:
+              <span className="text-gray-600">
+                {" "}
+                {data.mealDetails?.ingredient ||
+                  data.upcomingDetails?.ingredient}
+              </span>
             </p>
-            <p>
-              {data.mealDetails?.description ||
-                data.upcomingDetails?.description}
+            <p className="text-xl md:text-2xl  font-semibold text-gray-800 capitalize flex flex-col md:flex-row items-start justify-start">
+              description:
+              <span className="text-gray-600 text-xl">
+                {data.mealDetails?.description ||
+                  data.upcomingDetails?.description}
+              </span>
             </p>
-            <p>{data.mealDetails?.time || data.upcomingDetails?.time}</p>
+            <p className="text-xl md:text-2xl  font-semibold text-gray-800 capitalize ">
+              {" "}
+              post time :
+              <span className="text-gray-600">
+                {" "}
+                {data.mealDetails?.time || data.upcomingDetails?.time}
+              </span>
+            </p>
             <p>
               <p>
                 <Rating
+                  className=""
                   readOnly
-                  style={{ maxWidth: 250 }}
+                  style={{ maxWidth: 120 }}
                   value={
                     data.mealDetails?.averageRating ||
                     0 ||
@@ -188,8 +218,8 @@ const MealsDetails = () => {
                 {data.mealDetails?.ratingCount ||
                   rating ||
                   data.upcomingDetails?.ratingCount ||
-                  rating}Rating)
-
+                  rating}
+                Rating)
               </p>
             </p>
             <p>
@@ -202,38 +232,58 @@ const MealsDetails = () => {
               >
                 {like ? "Unlike" : "Like"}
               </button>
-              <button
-                onClick={() => handleMealRequest(data.mealDetails)}
-                className="btn btn-primary"
-              >
-                Meal Request
-              </button>
+              {data?.mealDetails ? (
+                <button
+                  onClick={() => handleMealRequest(data.mealDetails)}
+                  className="btn btn-primary"
+                >
+                  Meal Request
+                </button>
+              ) : (
+                ""
+              )}
             </div>
             {/* ==================== */}
             {/* Rating Submission */}
-            <div>
-              <h3>Rate this Meal</h3>
-              <Rating
-                value={userRating}
-                onChange={setUserRating}
-                style={{ maxWidth: 250 }}
-              />
-              <button onClick={handleRating} className="btn btn-primary mt-2">
-                Submit Rating
-              </button>
+            <div className="text-center text-2xl md:text-4xl mt-10">
+              Reviews about this Product
             </div>
-            {/* ================== */}
             <div>
-              <form onSubmit={handleReviews}>
-                <p>Write a review</p>
-                <textarea
-                  placeholder="Write a review"
-                  name="reviews"
-                  id=""
-                  required
-                ></textarea>
-                <input type="submit" value={"Submit"} />
-              </form>
+              {review?.map((item) => (
+                <div className="my-2">
+                  <p className="text-2xl">Reviews by: {item?.userName}</p>
+                  <p className="text-wrap">{item?.reviewsText}</p>
+                  <hr />
+                </div>
+              ))}
+            </div>
+            <div>
+               <h2 className="text-2xl md:text-4xl text-gray-600 font-semibold text-center">Submit your reviews and Rating</h2>
+              <div>
+                <h3>Rate this Meal</h3>
+                <Rating
+                  value={userRating}
+                  onChange={setUserRating}
+                  style={{ maxWidth: 150 }}
+                />
+                <button onClick={handleRating} className="btn btn-sm btn-primary mt-2">
+                  Submit Rating
+                </button>
+              </div>
+              {/* ================== */}
+              <div>
+                <form className="flex flex-col items-start justify-center gap-5" onSubmit={handleReviews}>
+                  <p>Write a review:</p>
+                  <textarea 
+                  className="border-2 w-full md:w-[50%] p-4"
+                    placeholder="Write a review"
+                    name="reviews"
+                    id=""
+                    required
+                  ></textarea>
+                  <input className="btn btn-primary" type="submit" value={"Submit"} />
+                </form>
+              </div>
             </div>
           </div>
         </div>

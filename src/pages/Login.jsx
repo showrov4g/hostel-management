@@ -59,6 +59,7 @@ const Login = () => {
                   photoURL: usersInfo.profilePhoto,
                 }),
                 axiosPublic.post("/users", usersInfo).then((res) => {
+                  navigate(location?.state ? location.state : "/");
                   if (res.data.insertedId) {
                     Swal.fire({
                       position: "top-end",
@@ -67,7 +68,7 @@ const Login = () => {
                       showConfirmButton: false,
                       timer: 1500,
                     });
-                    navigate(location?.state ? location.state : "/");
+                    
                   }
                 })
               )

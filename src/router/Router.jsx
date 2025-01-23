@@ -39,7 +39,7 @@ const Router = () => {
             <Route path="/login" element={<Login></Login>}></Route>
             <Route
               path="/mealsdetails/:id"
-              element={<MealsDetails></MealsDetails>}
+              element={<PrivateRoute><MealsDetails></MealsDetails></PrivateRoute>}
             ></Route>
           </Route>
           {/* admin route  */}
