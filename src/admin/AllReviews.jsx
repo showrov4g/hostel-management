@@ -2,10 +2,11 @@ import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import UseAxiosSecure from "../Hooks/UseAxiosSecure";
 import { Link } from "react-router";
+import Swal from "sweetalert2";
 
 const AllReviews = () => {
   const axiosSecure = UseAxiosSecure();
-  const { data: reviews = [0] } = useQuery({
+  const { data: reviews = [0], refetch } = useQuery({
     queryKey: ["reviews"],
     queryFn: async () => {
       const res = await axiosSecure.get(`/reviews`);
@@ -13,6 +14,30 @@ const AllReviews = () => {
     },
   });
   console.log(reviews);
+  const handleDelete=(_id)=>{
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then(async(result) => {
+      if (result.isConfirmed) {
+ 
+        const res =await axiosSecure.delete(`/meals/review/${_id}`)
+        refetch()
+        if(res.data.deletedCount){
+          Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success"
+        });
+        }
+      }
+    });
+  }
 
   return (
     <div>
@@ -40,7 +65,7 @@ const AllReviews = () => {
                 <td>{item?.likes}</td>
                 <td>{item?.reviewsCount}</td>
                 <td>
-                  <button>Delete</button>
+                  <button onClick={()=>handleDelete(item?._id)}>Delete</button>
                   <button><Link to={`/mealsdetails/${item?.productId}`}>view meal</Link></button>
                 </td>
               </tr>

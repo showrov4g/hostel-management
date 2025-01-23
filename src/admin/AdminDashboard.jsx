@@ -72,6 +72,9 @@ const AdminDashboard = () => {
                         <Link to={"allreviews"}>
                           <FaUserCircle></FaUserCircle> All Reviews
                         </Link>
+                        <Link to={"serve"}>
+                          <FaUserCircle></FaUserCircle> Serve Meals
+                        </Link>
                       </li>
                     </div>
                   ) : (

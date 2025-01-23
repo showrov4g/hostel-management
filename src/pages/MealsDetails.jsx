@@ -83,10 +83,10 @@ const MealsDetails = () => {
     const mealRequest = {
       mealName,
       likes,
-      review,
       request_data: new Date(),
       status: "panning",
       email: user?.email,
+      name: user?.displayName,
     };
     if (!user) {
       toast.error("You need to login first");
