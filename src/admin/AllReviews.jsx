@@ -41,12 +41,12 @@ const AllReviews = () => {
 
   return (
     <div>
-      <h1>All reviews: {reviews.length} </h1>
+      <h1 className="text-4xl font-semibold mb-5">All reviews: {reviews.length} </h1>
       {/* table  */}
       <div className="overflow-x-auto">
         <table className="table table-zebra">
           {/* head */}
-          <thead>
+          <thead className="bg-primary text-white">
             <tr>
               <th>SL</th>
               <th>meal title</th>
@@ -64,9 +64,9 @@ const AllReviews = () => {
                 <td>{item?.mealName}</td>
                 <td>{item?.likes}</td>
                 <td>{item?.reviewsCount}</td>
-                <td>
-                  <button onClick={()=>handleDelete(item?._id)}>Delete</button>
-                  <button><Link to={`/mealsdetails/${item?.productId}`}>view meal</Link></button>
+                <td className="space-x-3">
+                  <button className="btn btn-primary" onClick={()=>handleDelete(item?._id)}>Delete</button>
+                  <button className="btn btn-error"><Link to={`/mealsdetails/${item?.productId}`}>view meal</Link></button>
                 </td>
               </tr>
             ))}

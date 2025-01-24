@@ -109,7 +109,7 @@ const AllUser = () => {
         <div className="overflow-x-auto">
           <table className="table table-zebra">
             {/* head */}
-            <thead>
+            <thead className="bg-primary text-white">
               <tr>
                 <th>SL</th>
                 <th>Username</th>
@@ -132,14 +132,14 @@ const AllUser = () => {
                     {item?.role === "admin" ? (
                       "admin"
                     ) : (
-                      <button onClick={() => handleUserRole(item)}>
+                      <button className="btn btn-primary" onClick={() => handleUserRole(item)}>
                         <FaUser></FaUser>
                       </button>
                     )}
                   </td>
                   <td>{item?.subscription}</td>
                   <td>
-                    <button onClick={() => handleDelete(item)}>
+                    <button className="btn btn-error text-white" onClick={() => handleDelete(item)}>
                       {" "}
                       <MdDelete />{" "}
                     </button>

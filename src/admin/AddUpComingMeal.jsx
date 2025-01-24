@@ -64,12 +64,13 @@ const AddUpComingMeal = () => {
 
     return (
         <div>
-      <h1 className="text-gray-700 text-3xl font-medium">Add an upcoming meal</h1>
+      <h1 className="text-gray-700 text-3xl font-medium text-center mb-6">Add an upcoming meal</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* meal name  */}
         <div>
-          <p>Meal Name</p>
-          <input
+          <p className="text-xl md:text-2xl">Meal Name</p>
+          <input 
+          className="w-full p-3"
             type="text"
             placeholder="inter meal name"
             {...register("mealName", { required: true })}
@@ -79,23 +80,12 @@ const AddUpComingMeal = () => {
             <p role="alert">Meal name is required</p>
           )}
         </div>
-        {/* meal category */}
-        {/* <div>
-          <p>category name</p>
-          <input
-            type="text"
-            {...register("category", { required: true })}
-            aria-invalid={errors.category ? "true" : "false"}
-          />
-          {errors.category?.type === "required" && (
-            <p role="alert">category name is required</p>
-          )}
-        </div> */}
+  
 
         <div>
           <div className="form-control w-full my-6">
             <label className="label">
-              <span className="label-text">Category*</span>
+              <span className="label-text">Category</span>
             </label>
             <select
               defaultValue="default"
@@ -115,8 +105,9 @@ const AddUpComingMeal = () => {
         </div>
         {/* meal image  */}
         <div>
-          <p>Meal Image</p>
-          <input
+          <p  className="text-xl md:text-2xl my-2">Meal Image</p>
+          <input 
+           className="w-full p-3 font-bold"
             type="file"
             {...register("mealImage", { required: true })}
             aria-invalid={errors.mealImage ? "true" : "false"}
@@ -127,8 +118,9 @@ const AddUpComingMeal = () => {
         </div>
         {/* ingredients  */}
         <div>
-          <p>Meal ingredients</p>
+          <p  className="text-xl md:text-2xl my-2">Meal ingredients</p>
           <input
+           className="w-full p-3"
             type="text"
             {...register("ingredient", { required: true })}
             aria-invalid={errors.ingredient ? "true" : "false"}
@@ -139,8 +131,9 @@ const AddUpComingMeal = () => {
         </div>
         {/* price */}
         <div>
-          <p>Meal Price</p>
+          <p  className="text-xl md:text-2xl my-2">Meal Price</p>
           <input
+           className="w-full p-3"
             type="number"
             {...register("price", { required: true })}
             aria-invalid={errors.price ? "true" : "false"}
@@ -151,9 +144,9 @@ const AddUpComingMeal = () => {
         </div>
         {/* description */}
         <div>
-          <p>Meal Description</p>
+          <p  className="text-xl md:text-2xl my-2">Meal Description</p>
 
-          <textarea
+          <textarea className="w-full" rows={5} 
             {...register("description", { required: true })}
             aria-invalid={errors.description ? "true" : "false"}
           ></textarea>
@@ -164,8 +157,8 @@ const AddUpComingMeal = () => {
 
         {/* date */}
         <div>
-          <p>Meal time</p>
-          <input
+          <p  className="text-xl md:text-2xl my-2">Meal time</p>
+          <input  className="w-full p-3" 
             type="date"
             {...register("time", { required: true })}
             aria-invalid={errors.time ? "true" : "false"}
@@ -175,7 +168,7 @@ const AddUpComingMeal = () => {
           )}
         </div>
         {/* submit  */}
-        <button>submit</button>
+        <button className="btn btn-primary my-4">submit</button>
       </form>
     </div>
     );

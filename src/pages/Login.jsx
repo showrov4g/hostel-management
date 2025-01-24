@@ -13,6 +13,7 @@ const imageHostingApi = `https://api.imgbb.com/1/upload?key=${imageHostingKey}`;
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  console.log(location)
   const axiosPublic = UseAxiosPublic();
   const [display_url, setDisplay_url] = useState()
   const {
@@ -20,7 +21,7 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [state, setState] = useState("Login");
+  const [states, setStates] = useState("Login");
   const { createUser, loginUser, loginWithGoogle, updateUserProfile } =
     useContext(AuthContext);
 
@@ -31,7 +32,7 @@ const Login = () => {
   
 
     {
-      state === "sign up"
+      states === "sign up"
         ? axiosPublic.post(imageHostingApi, imageList, {
             headers: {
               "content-type": "multipart/form-data",
@@ -50,7 +51,7 @@ const Login = () => {
     };
 
     {
-      state === "sign up"
+      states === "sign up"
         ? createUser(email, password)
             .then(
               (res) => (
@@ -59,7 +60,7 @@ const Login = () => {
                   photoURL: usersInfo.profilePhoto,
                 }),
                 axiosPublic.post("/users", usersInfo).then((res) => {
-                  navigate(location?.state ? location.state : "/");
+                  navigate(location?.state ? location.state : "/")
                   if (res.data.insertedId) {
                     Swal.fire({
                       position: "top-end",
@@ -89,6 +90,7 @@ const Login = () => {
   const handleGoogleLOgin = () => {
     loginWithGoogle()
       .then((res) => {
+        navigate("/")
         const usersInfo = {
           name: res.user.displayName,
           email: res.user.email,
@@ -96,11 +98,12 @@ const Login = () => {
           role: "user",
           subscription: "Bronze"
         }
-        navigate(location?.state ? location.state : "/");
+        
         if(res.user){
           axiosPublic.patch('/users', usersInfo)
           .then(res=>{
             if(res.data.insertedId){
+              
               Swal.fire({
                 position: "top-end",
                 icon: "success",
@@ -126,10 +129,10 @@ const Login = () => {
       >
         <div className="flex flex-col gap-3 m-auto items-start p-8 min-w-[340px] sm:min-w-96 border rounded-xl text-zinc-600 text-sm shadow-lg ">
           <p className="text-2xl font-semibold">
-            {state === "sign up" ? "Create an Account" : "Login now"}
+            {states === "sign up" ? "Create an Account" : "Login now"}
           </p>
           {/* name input field  */}
-          {state === "sign up" ? (
+          {states === "sign up" ? (
             <div className="w-full">
               <p>Your Name</p>
               <input
@@ -148,7 +151,7 @@ const Login = () => {
           ) : (
             ""
           )}
-          {state === "sign up" ? (
+          {states === "sign up" ? (
             <div className="w-full">
               <p>Your Name</p>
               <input
@@ -200,13 +203,13 @@ const Login = () => {
             )}
           </div>
           <button className="bg-primary text-white w-full py-2 rounded-md text-base ">
-            {state === "sign up" ? <p>Create Account</p> : <p>Login</p>}
+            {states === "sign up" ? <p>Create Account</p> : <p>Login</p>}
           </button>
-          {state === "sign up" ? (
+          {states === "sign up" ? (
             <p>
               Already have an account?
               <span
-                onClick={() => setState("Login")}
+                onClick={() => setStates("Login")}
                 className="text-primary underline cursor-pointer"
               >
                 Login here
@@ -216,7 +219,7 @@ const Login = () => {
             <p>
               Create a new account?{" "}
               <span
-                onClick={() => setState("sign up")}
+                onClick={() => setStates("sign up")}
                 className="text-primary underline cursor-pointer"
               >
                 Click here

@@ -25,10 +25,10 @@ const AdminProfile = () => {
 
     return (
         <div>
-            <h2>Welcome ! {admin?.name}</h2>
-            <img src={admin?.profilePhoto} alt="" />
-            <p>Email : {admin?.email}</p>
-            <p>You have added {meals?.length} meals</p>
+            <h2 className='text-5xl font-semibold'>Welcome ! <span className='text-gray-500'>{admin?.name}</span></h2>
+            <img className='w-28 h-28 rounded-full' src={admin?.profilePhoto} alt="" />
+            <p className='text-3xl'>Email : {admin?.email}</p>
+            <p className='text-3xl'>You have added {meals?.length} meals</p>
         </div>
     );
 };

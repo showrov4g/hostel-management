@@ -1,10 +1,26 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FaUser, FaUserCircle } from "react-icons/fa";
 import { Link, NavLink, Outlet } from "react-router";
 import UseAdmin from "../Hooks/UseAdmin";
+import { AuthContext } from "../context/AuthProvider";
+import Swal from "sweetalert2";
 
 const AdminDashboard = () => {
   const [isAdmin] = UseAdmin();
+  const{logout} = useContext(AuthContext);
+  const handleLogOut =()=>{
+    logout()
+    .then(res=> (
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "You have successfully Logout",
+        showConfirmButton: false,
+        timer: 1500
+      })
+    ))
+    .catch(err=>console.log(err))
+  }
   return (
     <div className="w-11/12 mx-auto">
       {/* navbar  */}
@@ -13,12 +29,12 @@ const AdminDashboard = () => {
           <a className="btn btn-ghost text-xl">Dashboard</a>
         </div>
         <div className="flex-none">
-          <button className="btn btn-primary">Logout</button>
+          <button onClick={handleLogOut} className="btn btn-primary">Logout</button>
         </div>
       </div>
 
       {/* navbar end */}
-      <div className="flex gap-12">
+      <div className="md:flex gap-12 space-y-5">
         <div className="bg-green-50">
           <div>
             <div className="drawer lg:drawer-open">
@@ -33,7 +49,7 @@ const AdminDashboard = () => {
                   htmlFor="my-drawer-2"
                   className="btn btn-primary drawer-button lg:hidden"
                 >
-                  Open drawer
+                  Open menu
                 </label>
               </div>
               <div className="drawer-side">
@@ -42,7 +58,7 @@ const AdminDashboard = () => {
                   aria-label="close sidebar"
                   className="drawer-overlay"
                 ></label>
-                <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+                <ul className="menu bg-base-200 text-xl min-h-full w-80 p-4">
                   {/* Sidebar content here */}
                   {isAdmin ? (
                     // admin 
@@ -51,7 +67,7 @@ const AdminDashboard = () => {
                         <Link to={"additem"}>Add an item</Link>
                       </li>
                       <li>
-                        <Link to={"addUpcomingMeal"}>Add up Coming Meal</Link>
+                        <Link to={"addUpcomingMeal"}>Add upcoming Meal</Link>
                       </li>
 
                       <li>
@@ -97,7 +113,7 @@ const AdminDashboard = () => {
             </div>
           </div>
         </div>
-        <div className="flex-1 bg-green-100 p-14">
+        <div className="md:flex-1 bg-green-100 p-2 md:p-14">
           <Outlet></Outlet>
         </div>
       </div>

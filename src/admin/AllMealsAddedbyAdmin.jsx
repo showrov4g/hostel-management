@@ -50,7 +50,7 @@ const AllMealsAddedbyAdmin = () => {
 
   return (
     <div>
-      <h1>You Have Added: {meals?.length} Meals</h1>
+      <h1 className="text-4xl font-semibold mb-5">You Have Added: {meals?.length} Meals</h1>
       <div className="mb-4">
         <button onClick={() => handleSort("likes")} className="btn btn-primary">Sort by Likes</button>
         <button onClick={() => handleSort("reviews")} className="btn btn-primary ml-2">Sort by Reviews Count</button>
@@ -59,7 +59,7 @@ const AllMealsAddedbyAdmin = () => {
       <div className="overflow-x-auto">
         <table className="table table-zebra">
           {/* head */}
-          <thead>
+          <thead className="bg-primary text-white font-semibold">
             <tr>
               <th>SL</th>
               <th>Meal Name</th>
@@ -82,11 +82,11 @@ const AllMealsAddedbyAdmin = () => {
                 <td>{item?.rating}</td>
                 <td>{item?.distributer_name}</td>
                 <td className="flex flex-col md:flex-row gap-3">
-                  <button><Link to={`/dashboard/updateMeals/${item?._id}`}>Update</Link></button>
-                  <button onClick={() => handleDelete(item?._id)}>
+                  <button className="btn btn-primary"><Link to={`/dashboard/updateMeals/${item?._id}`}>Update</Link></button>
+                  <button className="btn btn-error" onClick={() => handleDelete(item?._id)}>
                     Delete
                   </button>
-                  <button><Link to={`/mealsdetails`}>Views meals</Link></button>
+                  <button className="btn btn-primary"><Link to={`/mealsdetails`}>Views meals</Link></button>
                 </td>
               </tr>
             ))}

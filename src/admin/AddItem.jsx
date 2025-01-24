@@ -65,38 +65,27 @@ const AddItem = () => {
 
   return (
     <div>
-      <h1 className="text-gray-700 text-3xl font-medium">Add an meals</h1>
+      <h1 className="text-gray-700 text-xl md:text-5xl font-medium text-center">Add an meals</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* meal name  */}
         <div>
-          <p>Meal Name</p>
-          <input
+          <p className=" md:text-2xl my-2">Meal Name</p>
+          <input className="w-full p-3 font-bold"
             type="text"
             placeholder="inter meal name"
             {...register("mealName", { required: true })}
             aria-invalid={errors.mealName ? "true" : "false"}
           />
           {errors.mealName?.type === "required" && (
-            <p role="alert">Meal name is required</p>
+            <p role="alert" className="text-red-500">Meal name is required</p>
           )}
         </div>
-        {/* meal category */}
-        {/* <div>
-          <p>category name</p>
-          <input
-            type="text"
-            {...register("category", { required: true })}
-            aria-invalid={errors.category ? "true" : "false"}
-          />
-          {errors.category?.type === "required" && (
-            <p role="alert">category name is required</p>
-          )}
-        </div> */}
+ 
 
         <div>
           <div className="form-control w-full my-6">
             <label className="label">
-              <span className="label-text">Category*</span>
+              <span className="label-text text-2xl">Category*</span>
             </label>
             <select
               defaultValue="default"
@@ -116,67 +105,67 @@ const AddItem = () => {
         </div>
         {/* meal image  */}
         <div>
-          <p>Meal Image</p>
-          <input
+          <p className="text-xl md:text-2xl my-2">Meal Image</p>
+          <input className="w-full p-3 font-bold"
             type="file"
             {...register("mealImage", { required: true })}
             aria-invalid={errors.mealImage ? "true" : "false"}
           />
           {errors.mealImage?.type === "required" && (
-            <p role="alert">Meal image is required</p>
+            <p role="alert" className="text-red-500">Meal image is required</p>
           )}
         </div>
         {/* ingredients  */}
         <div>
-          <p>Meal ingredients</p>
-          <input
+          <p className="text-xl md:text-2xl my-2">Meal ingredients</p>
+          <input className="w-full p-3 font-bold"
             type="text"
             {...register("ingredient", { required: true })}
             aria-invalid={errors.ingredient ? "true" : "false"}
           />
           {errors.ingredient?.type === "required" && (
-            <p role="alert">First name is required</p>
+            <p role="alert" className="text-red-500">First name is required</p>
           )}
         </div>
         {/* price */}
         <div>
-          <p>Meal Price</p>
-          <input
+          <p className="text-xl md:text-2xl my-2">Meal Price</p>
+          <input className="w-full p-3 font-bold"
             type="number"
             {...register("price", { required: true })}
             aria-invalid={errors.price ? "true" : "false"}
           />
           {errors.price?.type === "required" && (
-            <p role="alert">First name is required</p>
+            <p role="alert" className="text-red-500">First name is required</p>
           )}
         </div>
         {/* description */}
         <div>
-          <p>Meal Description</p>
+          <p className="text-xl md:text-2xl my-2">Meal Description</p>
 
-          <textarea
+          <textarea className="w-full" rows={5}
             {...register("description", { required: true })}
             aria-invalid={errors.description ? "true" : "false"}
           ></textarea>
           {errors.description?.type === "required" && (
-            <p role="alert">First name is required</p>
+            <p role="alert" className="text-red-500">First name is required</p>
           )}
         </div>
 
         {/* date */}
         <div>
-          <p>Meal time</p>
-          <input
+          <p className="text-xl md:text-2xl my-2">Meal time</p>
+          <input className="w-full p-3 font-bold"
             type="time"
             {...register("time", { required: true })}
             aria-invalid={errors.time ? "true" : "false"}
           />
           {errors.time?.type === "required" && (
-            <p role="alert">First name is required</p>
+            <p role="alert" className="text-red-500">First name is required</p>
           )}
         </div>
         {/* submit  */}
-        <button>submit</button>
+        <button className="btn btn-primary mt-4">submit</button>
       </form>
     </div>
   );

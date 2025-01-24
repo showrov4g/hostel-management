@@ -5,7 +5,6 @@ import { useLocation, useNavigate, useParams } from "react-router";
 import { Rating } from "@smastrom/react-rating";
 import { AuthContext } from "../context/AuthProvider";
 import { toast } from "react-toastify";
-import { use } from "react";
 
 const MealsDetails = () => {
   // State variable

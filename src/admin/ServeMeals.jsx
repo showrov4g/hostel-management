@@ -37,11 +37,11 @@ const ServeMeals = () => {
   console.log(serve);
   return (
     <div>
-      <h2>Serve meals: {serve.length}</h2>
+      <h2 className="text-4xl text-semibold mb-5">Serve meals: {serve.length}</h2>
       <div className="overflow-x-auto">
         <table className="table table-zebra">
           {/* head */}
-          <thead>
+          <thead className="bg-primary text-white">
             <tr>
               <th>SL</th>
               <th>meal Title</th>
