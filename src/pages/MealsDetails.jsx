@@ -89,7 +89,7 @@ const MealsDetails = () => {
       mealName,
       likes,
       request_data: new Date(),
-      status: "panning",
+      status: "pending",
       email: user?.email,
       name: user?.displayName,
     };

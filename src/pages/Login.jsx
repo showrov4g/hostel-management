@@ -13,9 +13,9 @@ const imageHostingApi = `https://api.imgbb.com/1/upload?key=${imageHostingKey}`;
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location)
+  console.log(location);
   const axiosPublic = UseAxiosPublic();
-  const [display_url, setDisplay_url] = useState()
+  const [displayURL, setDisplayURL] = useState();
   const {
     register,
     handleSubmit,
@@ -29,25 +29,25 @@ const Login = () => {
   const onSubmit = async (data) => {
     const { name, email, password, photo } = data;
     const imageList = { image: photo?.[0] };
-  
 
     {
       states === "sign up"
-        ? axiosPublic.post(imageHostingApi, imageList, {
-            headers: {
-              "content-type": "multipart/form-data",
-            },
-          }) .then(res => setDisplay_url(res.data.data.display_url))
-
+        ? axiosPublic
+            .post(imageHostingApi, imageList, {
+              headers: {
+                "content-type": "multipart/form-data",
+              },
+            })
+            .then((res) => (setDisplayURL(res.data.data.display_url)))
         : "";
     }
 
     const usersInfo = {
       name,
       email,
-      profilePhoto: display_url,
+      displayURL,
       role: "user",
-      subscription: "Bronze"
+      subscription: "Bronze",
     };
 
     {
@@ -57,10 +57,10 @@ const Login = () => {
               (res) => (
                 updateUserProfile({
                   displayName: name,
-                  photoURL: usersInfo.profilePhoto,
+                  photoURL: displayURL,
                 }),
                 axiosPublic.post("/users", usersInfo).then((res) => {
-                  navigate(location?.state ? location.state : "/")
+                  navigate(location?.state ? location.state : "/");
                   if (res.data.insertedId) {
                     Swal.fire({
                       position: "top-end",
@@ -69,7 +69,6 @@ const Login = () => {
                       showConfirmButton: false,
                       timer: 1500,
                     });
-                    
                   }
                 })
               )
@@ -77,9 +76,8 @@ const Login = () => {
             .catch((err) => toast.error(err.message))
         : loginUser(email, password)
             .then((res) => {
-              toast.success("You have successfully login")
+              toast.success("You have successfully login");
               navigate(location?.state ? location.state : "/");
-              
             })
             .catch((err) => toast.error(err.message));
     }
@@ -90,20 +88,18 @@ const Login = () => {
   const handleGoogleLOgin = () => {
     loginWithGoogle()
       .then((res) => {
-        navigate("/")
+        navigate("/");
         const usersInfo = {
           name: res.user.displayName,
           email: res.user.email,
           profilePhoto: res.user.photoURL,
           role: "user",
-          subscription: "Bronze"
-        }
-        
-        if(res.user){
-          axiosPublic.patch('/users', usersInfo)
-          .then(res=>{
-            if(res.data.insertedId){
-              
+          subscription: "Bronze",
+        };
+
+        if (res.user) {
+          axiosPublic.patch("/users", usersInfo).then((res) => {
+            if (res.data.insertedId) {
               Swal.fire({
                 position: "top-end",
                 icon: "success",
@@ -111,12 +107,9 @@ const Login = () => {
                 showConfirmButton: false,
                 timer: 1500,
               });
-              
             }
-          })
+          });
         }
-
-        
       })
       .catch((err) => toast.error(err.message));
   };

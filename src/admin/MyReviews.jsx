@@ -73,7 +73,7 @@ const MyReviews = () => {
         <div className="overflow-x-auto">
           <table className="table">
             {/* head */}
-            <thead>
+            <thead  className="bg-primary text-white font-bold">
               <tr>
                 <th></th>
                 <th>Meal Name</th>

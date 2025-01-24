@@ -14,7 +14,7 @@ const UpcomingMeals = () => {
     })
     return (
         <div>
-            <h1>Your Upcoming meals</h1>
+            <h1 className='text-4xl text-center font-bold my-10'>Upcoming meals</h1>
             <div className='grid md:grid-cols-4 gap-4 '>
                 {
                     upcoming?.map(item=><MealCart item={item} key={item?._id}></MealCart>)

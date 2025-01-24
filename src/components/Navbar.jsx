@@ -9,6 +9,7 @@ import UseAdmin from "../Hooks/UseAdmin";
 const Navbar = () => {
   const axiosSecure = UseAxiosSecure();
   const { logout, user } = useContext(AuthContext);
+  console.log(user)
 
 
   const handleLogOut = () => {

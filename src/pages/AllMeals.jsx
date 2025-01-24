@@ -12,19 +12,19 @@ const AllMeals = () => {
     queryKey: ["meals", category, priceRange],
     queryFn: async () => {
       const query = `?minPrice=${priceRange.minPrice}&maxPrice=${priceRange.maxPrice}`;
-      const data = (category === "all" ? `/meals/${query}` : `/meals/category/${category}${query}`);
-   
+      const data =
+        category === "all"
+          ? `/meals/${query}`
+          : `/meals/category/${category}${query}`;
+
       const res = await axiosPublic.get(data);
       return res.data;
     },
   });
-  const handlePriceChange=(e)=>{
-    
-    const {name,value} = e.target;
-    setPriceRange(prev=>({...prev, [name]:value}))
-
-
-  }
+  const handlePriceChange = (e) => {
+    const { name, value } = e.target;
+    setPriceRange((prev) => ({ ...prev, [name]: value }));
+  };
 
   return (
     <div className="flex gap-4 ">

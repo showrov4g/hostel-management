@@ -47,7 +47,7 @@ const ServeMeals = () => {
               <th>meal Title</th>
               <th>User Email</th>
               <th>User Name</th>
-              <th>Status</th>
+              <th className="text-green-500">Status</th>
               <th>action</th>
             </tr>
           </thead>
@@ -62,7 +62,7 @@ const ServeMeals = () => {
                 <td>{item?.name}</td>
                 <td>{item?.status}</td>
                 <td>
-                  <button onClick={()=>handleServe(item?._id)}>serve</button>
+                  <button className="btn btn-primary" onClick={()=>handleServe(item?._id)}>serve</button>
                 </td>
               </tr>
             ))}

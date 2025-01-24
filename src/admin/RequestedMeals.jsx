@@ -47,14 +47,14 @@ const RequestedMeals = () => {
 
   return (
     <div>
-      <h1>My requested Meal: {requestMeal?.length}</h1>
+      <h1 className="text-center text-4xl font-semibold mb-4">My requested Meal: {requestMeal?.length}</h1>
       {/* table  */}
       {requestMeal?.length !== 0 ? (
         <div>
           <div className="overflow-x-auto">
             <table className="table">
               {/* head */}
-              <thead>
+              <thead className="bg-primary text-white font-bold">
                 <tr>
                   <th>SL:</th>
                   <th>Meal name</th>
