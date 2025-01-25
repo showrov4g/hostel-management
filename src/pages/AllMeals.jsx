@@ -27,7 +27,7 @@ const AllMeals = () => {
   };
 
   return (
-    <div className="flex gap-4 ">
+    <div className="md:flex gap-4 space-y-8">
       <div className="">
         <div className="drawer lg:drawer-open">
           <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -37,7 +37,7 @@ const AllMeals = () => {
               htmlFor="my-drawer-2"
               className="btn btn-primary drawer-button lg:hidden"
             >
-              Open drawer
+              Open menu
             </label>
           </div>
           <div className="drawer-side">
@@ -91,7 +91,7 @@ const AllMeals = () => {
           </div>
         </div>
       </div>
-      <div className="flex-1 grid grid-cols-3 gap-4">
+      <div className="flex-1 grid md:grid-cols-3 gap-4">
         {meals?.map((item) => (
           <MealCart key={item._id} item={item}></MealCart>
         ))}

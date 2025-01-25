@@ -76,8 +76,9 @@ const Login = () => {
             .catch((err) => toast.error(err.message))
         : loginUser(email, password)
             .then((res) => {
-              toast.success("You have successfully login");
               navigate(location?.state ? location.state : "/");
+              toast.success("You have successfully login");
+              
             })
             .catch((err) => toast.error(err.message));
     }

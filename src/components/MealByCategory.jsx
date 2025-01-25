@@ -40,8 +40,8 @@ const MealByCategory = () => {
             <button className="btn" onClick={() => setCategory("Dinner")}>Dinner</button>
           </li>
         </ul>
-      </div>
-      <div className="flex-1 grid grid-cols-3 gap-4">
+      </div> 
+      <div className="flex-1 grid md:grid-cols-3 gap-4">
         {meals?.map((item) => (
           <MealCart key={item._id} item={item}></MealCart>
         ))}

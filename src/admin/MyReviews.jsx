@@ -12,9 +12,9 @@ const MyReviews = () => {
   const { _id } = useParams();
   // state variable
   const [reviewsItem, setReviewsItem] = useState(null);
-  const [reviewText, setReviewText] = useState('')
+  const [reviewText, setReviewText] = useState("");
 
-// ----------
+  // ----------
   const { data: reviews, refetch } = useQuery({
     queryKey: ["reviews"],
     queryFn: async () => {
@@ -51,18 +51,19 @@ const MyReviews = () => {
     setReviewsItem(item);
     document.getElementById("my_modal_5").showModal();
   };
-  const handleReviews = async(e) => {
-    e.preventDefault()
+  const handleReviews = async (e) => {
+    e.preventDefault();
     console.log(reviewsItem);
-    const data = (e.target.reviews.value)
-    const updateReviews = {reviewsText: data}
-    const res = await axiosSecure.patch(`/meals/review/${reviewsItem?._id}`,updateReviews);
-    if(res.data.modifiedCount){
-      refetch()
-      toast.success("Successfully Update")
-      
+    const data = e.target.reviews.value;
+    const updateReviews = { reviewsText: data };
+    const res = await axiosSecure.patch(
+      `/meals/review/${reviewsItem?._id}`,
+      updateReviews
+    );
+    if (res.data.modifiedCount) {
+      refetch();
+      toast.success("Successfully Update");
     }
-
   };
 
   return (
@@ -71,47 +72,51 @@ const MyReviews = () => {
       {/* table  */}
       <div>
         <div className="overflow-x-auto">
-          <table className="table">
-            {/* head */}
-            <thead  className="bg-primary text-white font-bold">
-              <tr>
-                <th></th>
-                <th>Meal Name</th>
-                <th>likes</th>
-                <th>Reviews</th>
-                <th>action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* row 1 */}
+          {reviews?.length ? (
+            <table className="table">
+              {/* head */}
+              <thead className="bg-primary text-white font-bold">
+                <tr>
+                  <th></th>
+                  <th>Meal Name</th>
+                  <th>likes</th>
+                  <th>Reviews</th>
+                  <th>action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {/* row 1 */}
 
-              {reviews?.map((item, index) => (
-                <>
-                  <tr key={item._id} className="bg-base-200">
-                    <th>{index + 1}</th>
-                    <td>{item?.mealName}</td>
-                    <td>{item?.like}</td>
-                    <td>{item?.reviewsText}</td>
-                    <td className="flex flex-col md:flex-row gap-5">
-                      <button
-                        onClick={() => handleEdit(item)}
-                        className="btn btn-primary"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => handleDelete(item?._id)}
-                        className="btn btn-warning"
-                      >
-                        Delete
-                      </button>
-                      <button className="btn btn-primary">Views More</button>
-                    </td>
-                  </tr>
-                </>
-              ))}
-            </tbody>
-          </table>
+                {reviews?.map((item, index) => (
+                  <>
+                    <tr key={item._id} className="bg-base-200">
+                      <th>{index + 1}</th>
+                      <td>{item?.mealName}</td>
+                      <td>{item?.like}</td>
+                      <td>{item?.reviewsText}</td>
+                      <td className="flex flex-col md:flex-row gap-5">
+                        <button
+                          onClick={() => handleEdit(item)}
+                          className="btn btn-primary"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => handleDelete(item?._id)}
+                          className="btn btn-warning"
+                        >
+                          Delete
+                        </button>
+                        <button className="btn btn-primary">Views More</button>
+                      </td>
+                    </tr>
+                  </>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            "there is no Reviews"
+          )}
         </div>
       </div>
       {/* modal  */}

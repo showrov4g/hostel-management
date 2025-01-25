@@ -1,9 +1,13 @@
 import { useContext, useState } from "react";
-import { FaUser, FaUserCircle } from "react-icons/fa";
+import { FaCookie, FaHome, FaRegQuestionCircle, FaUser, FaUserCircle, FaUsers } from "react-icons/fa";
 import { Link, NavLink, Outlet } from "react-router";
 import UseAdmin from "../Hooks/UseAdmin";
 import { AuthContext } from "../context/AuthProvider";
 import Swal from "sweetalert2";
+import { MdAdminPanelSettings, MdOutlineReviews, MdReviews } from "react-icons/md";
+import { RiAlignItemLeftFill } from "react-icons/ri";
+import { IoAddCircle } from "react-icons/io5";
+import { CgProfile } from "react-icons/cg";
 
 const AdminDashboard = () => {
   const [isAdmin] = UseAdmin();
@@ -26,7 +30,7 @@ const AdminDashboard = () => {
       {/* navbar  */}
       <div className="navbar bg-base-100">
         <div className="flex-1">
-          <a className="btn btn-ghost text-xl">Dashboard</a>
+          <Link to={'/dashboard'} className="btn btn-ghost text-xl">Dashboard</Link>
         </div>
         <div className="flex-none">
           <button onClick={handleLogOut} className="btn btn-primary">Logout</button>
@@ -64,32 +68,35 @@ const AdminDashboard = () => {
                     // admin 
                     <div>
                       <li>
-                        <Link to={"additem"}>Add an item</Link>
+                        <Link to={"additem"}><IoAddCircle /> Add an item</Link>
                       </li>
                       <li>
-                        <Link to={"addUpcomingMeal"}>Add upcoming Meal</Link>
+                        <Link to={"addUpcomingMeal"}><IoAddCircle />Add upcoming Meal</Link>
                       </li>
 
                       <li>
                         <Link to={"alluser"}>
-                          <FaUser></FaUser> All user
+                        <FaUsers /> All user
                         </Link>
                       </li>
 
                       <li>
                         <Link to={"adminProfile"}>
-                          <FaUserCircle></FaUserCircle> Admin Profile
+                        <MdAdminPanelSettings /> Admin Profile
                         </Link>
                       </li>
                       <li>
                         <Link to={"allAddedMealsAdmin"}>
-                          <FaUserCircle></FaUserCircle> All Meals
+                        <RiAlignItemLeftFill /> All Meals
                         </Link>
                         <Link to={"allreviews"}>
-                          <FaUserCircle></FaUserCircle> All Reviews
+                        <MdReviews /> All Reviews
                         </Link>
                         <Link to={"serve"}>
-                          <FaUserCircle></FaUserCircle> Serve Meals
+                        <FaCookie /> Serve Meals
+                        </Link>
+                        <Link to={"/"}>
+                        <FaHome /> Go to Home
                         </Link>
                       </li>
                     </div>
@@ -97,13 +104,19 @@ const AdminDashboard = () => {
                     // user 
                     <div>
                       <li>
-                        <Link to={"requested"}>My Requested Meals</Link>
+                        <Link to={"requested"}><FaRegQuestionCircle></FaRegQuestionCircle> My Requested Meals</Link>
                       </li>
                       <li>
-                        <Link to={"reviews"}>My Reviews</Link>
+                        <Link to={"reviews"}><MdOutlineReviews /> My Reviews</Link>
                       </li>
                       <li>
-                        <Link to={"userprofile"}>My Profile</Link>
+                        <Link to={"userprofile"}><CgProfile /> My Profile</Link>
+                      </li>
+                      <li>
+                        <Link to={"history"}><CgProfile /> My Payment History</Link>
+                      </li>
+                      <li>
+                        <Link to={"/"}><FaHome /> Go to Home</Link>
                       </li>
                      
                     </div>
