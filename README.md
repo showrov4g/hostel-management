@@ -10,7 +10,7 @@ in this website also a admin can login and a admin can manage full website. admi
 # firebase 
 # dotenv for environment variable
 
-# Live website link [text](https://ssaignment12.web.app/)
+# Live website link [https://ssaignment12.web.app/](https://ssaignment12.web.app/)
 
 # Website image:
 <img src="./public/full.jpeg"/>
