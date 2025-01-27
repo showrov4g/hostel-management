@@ -3,12 +3,12 @@ in this website a student can register and take his/her needed meal as he want a
 
 in this website also a admin can login and a admin can manage full website. admin can add new and upcoming meals, can manage users a admin can change user role 
 
-# this website make with 
-# react
-# tailwind css
-# dasiUi
-# firebase 
-# dotenv for environment variable
+# this website make with :
+ react
+ tailwind css
+ dasiUi
+ firebase 
+ dotenv for environment variable
 
 # Live website link [https://ssaignment12.web.app/](https://ssaignment12.web.app/)
 
