@@ -1,8 +1,16 @@
-# React + Vite
+# hostel management website 
+in this website a student can register and take his/her needed meal as he want and also he/she can take premium subscription. a user can get notification about upcoming meals
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+in this website also a admin can login and a admin can manage full website. admin can add new and upcoming meals, can manage users a admin can change user role 
 
-Currently, two official plugins are available:
+# this website make with 
+# react
+# tailwind css
+# dasiUi
+# firebase 
+# dotenv for environment variable
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# Live website link [text](https://ssaignment12.web.app/)
+
+# Website image:
+<img src="./public/full.jpeg"/>
