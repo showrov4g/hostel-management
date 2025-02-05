@@ -25,7 +25,7 @@ import ServeMeals from "../admin/ServeMeals";
 import CheckOutPage from "../pages/CheckOutPage";
 import MyPaymentHistory from "../admin/MyPaymentHistory";
 import Errorpage from "../pages/Errorpage";
-//router page
+
 const Router = () => {
   const [isAdmin, setIsAdmin] = useState(true);
   return (
