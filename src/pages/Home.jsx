@@ -1,13 +1,13 @@
 import React from 'react';
-import Banner from '../components/banner';
 import MealByCategory from '../components/MealByCategory';
 import Subscription from '../components/Subscription';
 import Newsletter from '../components/Newsletter';
+import Banner from '../components/Banner';
 
 const Home = () => {
     return (
         <div>
-            <Banner></Banner>
+           <Banner></Banner>
             <MealByCategory></MealByCategory>
             <Subscription></Subscription>
             <Newsletter></Newsletter>
