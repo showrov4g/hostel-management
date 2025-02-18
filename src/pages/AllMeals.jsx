@@ -8,6 +8,8 @@ const AllMeals = () => {
   const axiosPublic = UseAxiosPublic();
   const [category, setCategory] = useState("all");
   const [priceRange, setPriceRange] = useState({ minPrice: 0, maxPrice: 100 });
+  // limited meals 
+  const [visibleMeals, setVisibleMeals] = useState(6);
   const { data: meals, isLoading } = useQuery({
     queryKey: ["meals", category, priceRange],
     queryFn: async () => {
@@ -21,10 +23,20 @@ const AllMeals = () => {
       return res.data;
     },
   });
+
+
+
+
+  
   const handlePriceChange = (e) => {
     const { name, value } = e.target;
     setPriceRange((prev) => ({ ...prev, [name]: value }));
   };
+
+  const loadMore = () => {
+    setVisibleMeals((prev) => prev + 6);
+  };
+
 
   return (
     <div className="md:flex gap-4 space-y-8">
@@ -91,10 +103,19 @@ const AllMeals = () => {
           </div>
         </div>
       </div>
-      <div className="flex-1 grid md:grid-cols-3 gap-4">
-        {meals?.map((item) => (
+      <div className="flex-1 grid md:grid-cols-2 gap-4">
+        {meals?.slice(0, visibleMeals).map((item) => (
           <MealCart key={item._id} item={item}></MealCart>
         ))}
+        {/* ------------------------ */}
+          {visibleMeals < meals?.length && (
+        <button onClick={loadMore} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg mx-auto block">
+          Load More
+        </button>
+      )}
+      </div>
+      <div>
+    
       </div>
     </div>
   );
