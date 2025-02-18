@@ -15,9 +15,9 @@ const Subscription = () => {
         <div className="text-center">
             <h2 className=" text-4xl font-semibold my-7">Your packages </h2>
         </div>
-        <div className="grid md:grid-cols-3">
+        <div className="grid md:grid-cols-3 gap-5">
       <div>
-        <div className="card bg-[#3f8acd] bg-opacity-15 w-96 h-80 shadow-xl hover:scale-105 transition-all duration-500">
+        <div className="card bg-[#3f8acd] bg-opacity-15  h-80 shadow-xl hover:scale-105 transition-all duration-500">
           <div className="card-body">
             <h2 className="card-title text-3xl font-bold">Silver</h2>
             <p>price: $20/m</p>
@@ -34,7 +34,7 @@ const Subscription = () => {
         </div>
       </div>
       <div>
-      <div className="card bg-[#3f8acd] bg-opacity-15 w-96 h-80 shadow-xl  hover:scale-105 transition-all duration-500">
+      <div className="card bg-[#3f8acd] bg-opacity-15  h-80 shadow-xl  hover:scale-105 transition-all duration-500">
           <div className="card-body">
             <h2 className="card-title text-3xl font-bold">Gold</h2>
             <p>price: $45/m</p>
@@ -51,7 +51,7 @@ const Subscription = () => {
         </div>
       </div>
       <div>
-      <div className="card bg-[#3f8acd] bg-opacity-15 w-96 h-80 shadow-xl  hover:scale-105 transition-all duration-500">
+      <div className="card bg-[#3f8acd] bg-opacity-15 h-96 md:h-80 shadow-xl  hover:scale-105 transition-all duration-500">
           <div className="card-body">
             <h2 className="card-title text-3xl font-bold">Platinum</h2>
             <p>price: $80/m</p>

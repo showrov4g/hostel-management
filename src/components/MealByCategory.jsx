@@ -25,7 +25,7 @@ const MealByCategory = () => {
   return (
     <div className=" space-y-5 my-20">
       <div className="my-4 mx-auto">
-        <ul className="flex items-center justify-center gap-2">
+        <ul className="flex items-center justify-center md:gap-2">
           {/* Sidebar content here */}
           <li>
             <button className="btn bg-[#3f8acd] hover:bg-[#6052ed] text-white"  onClick={() => setCategory("all")}>All meals</button>
