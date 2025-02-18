@@ -13,11 +13,11 @@ const Subscription = () => {
   return (
     <div className="my-20">
         <div className="text-center">
-            <h2 className=" text-4xl font-semibold">Your packages </h2>
+            <h2 className=" text-4xl font-semibold my-7">Your packages </h2>
         </div>
         <div className="grid md:grid-cols-3">
       <div>
-        <div className="card bg-base-100 w-96 shadow-xl">
+        <div className="card bg-[#3f8acd] bg-opacity-15 w-96 h-80 shadow-xl hover:scale-105 transition-all duration-500">
           <div className="card-body">
             <h2 className="card-title text-3xl font-bold">Silver</h2>
             <p>price: $20/m</p>
@@ -34,7 +34,7 @@ const Subscription = () => {
         </div>
       </div>
       <div>
-      <div className="card bg-base-100 w-96 shadow-xl">
+      <div className="card bg-[#3f8acd] bg-opacity-15 w-96 h-80 shadow-xl  hover:scale-105 transition-all duration-500">
           <div className="card-body">
             <h2 className="card-title text-3xl font-bold">Gold</h2>
             <p>price: $45/m</p>
@@ -45,13 +45,13 @@ const Subscription = () => {
                 <h6>Priority Dining Hall Access</h6>
             </div>
             <div className="card-actions justify-end">
-              <button onClick={()=>handlePackage("silver")} className="btn btn-primary">Buy Now</button>
+              <button onClick={()=>handlePackage("gold")} className="btn btn-primary">Buy Now</button>
             </div>
           </div>
         </div>
       </div>
       <div>
-      <div className="card bg-base-100 w-96 shadow-xl">
+      <div className="card bg-[#3f8acd] bg-opacity-15 w-96 h-80 shadow-xl  hover:scale-105 transition-all duration-500">
           <div className="card-body">
             <h2 className="card-title text-3xl font-bold">Platinum</h2>
             <p>price: $80/m</p>
@@ -63,7 +63,7 @@ const Subscription = () => {
                 <h6>Complimentary Beverages</h6>
             </div>
             <div className="card-actions justify-end">
-              <button onClick={()=>handlePackage("silver")} className="btn btn-primary">Buy Now</button>
+              <button onClick={()=>handlePackage("platinum")} className="btn btn-primary">Buy Now</button>
             </div>
           </div>
         </div>
