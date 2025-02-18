@@ -11,7 +11,7 @@ const Subscription = () => {
 
     // /checkout/:name
   return (
-    <div>
+    <div className="my-20">
         <div className="text-center">
             <h2 className=" text-4xl font-semibold">Your packages </h2>
         </div>
