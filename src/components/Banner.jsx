@@ -13,19 +13,19 @@ const Banner = () => {
         <div className="hero-overlay bg-opacity-60"></div>
         <div className="hero-content text-neutral-content text-center">
           <div className="max-w-md">
-            <h1 className="mb-5 text-5xl font-bold">Welcome to your Hostel</h1>
-            <p className="mb-5">
+            <h1 className="mb-5 text-5xl text-white font-bold">Welcome to your Hostel</h1>
+            <p className="mb-5 text-white">
               Hostel food is typically simple, nutritious, and economical. It
               often includes staple meals like rice, vegetables, lentils, or
               bread, catering to diverse dietary preferences.
             </p>
             <div className="flex items-center justify-center">
               <form action="" className="flex gap-3">
-                <input className="rounded-xl bg-transparent border px-3"
+                <input className="rounded-xl bg-transparent border px-3 outline-none"
                 placeholder="search your food"
                 type="search" />
                 <input
-                  className="btn btn-primary"
+                  className="btn bg-[#3f8acd] outline-none border-none text-white hover:bg-[#47a3f7]"
                   type="submit"
                   value={"search"}
                 />
