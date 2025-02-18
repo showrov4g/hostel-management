@@ -13,21 +13,25 @@ const MealCart = ({ item }) => {
   },[item])
 
   return (
-    <div className="card bg-[#3f8acd] bg-opacity-15 p-3 shadow-xl">
+    <div className="card bg-[#3f8acd] bg-opacity-15 p-3 shadow-xl transition-all duration-500  hover:scale-105">
       <figure>
-        <img src={item.mealImage} alt="Shoes" />
+        <img className="rounded-xl shadow-md" src={item.mealImage} alt="Meals" />
       </figure>
       <div className="card-body">
-        <h2 className="card-title">
-          {item.mealName}
-          <div className="badge badge-secondary">${item.price}</div>
+        <h2 className="card-title">Name:  {item.mealName}
+          <div className="badge bg-[#767df1]">${item.price}</div>
         </h2>
+        {/* short description */}
+        <p>
+          Description: {item.description.slice(0,100)}
+        </p>
+
         {/* reacting  */}
-        <p className="flex items-center gap-2 justify-start"> ({rating? rating: 0})
-        <Rating readOnly style={{ maxWidth: 150 }} value={rating}/>
+        <p className="flex items-center gap-2 justify-start">Rating:({rating? rating: 0})
+        <Rating  readOnly style={{ maxWidth: 120 }} value={rating}/>
         </p>
         <div className="card-actions justify-end">
-          <Link to={`/mealsdetails/${item._id}`}  className="btn btn-primary">details</Link>
+          <Link to={`/mealsdetails/${item._id}`}  className="btn bg-[#3f8acd] hover:bg-[#6052ed] text-[#01080e] capitalize">details</Link>
           
         </div>
       </div>

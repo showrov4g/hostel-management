@@ -23,7 +23,7 @@ const MealByCategory = () => {
   });
 
   return (
-    <div className=" space-y-5 my-14">
+    <div className=" space-y-5 my-20">
       <div className="my-4 mx-auto">
         <ul className="flex items-center justify-center gap-2">
           {/* Sidebar content here */}
