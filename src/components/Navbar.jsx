@@ -64,12 +64,12 @@ const Navbar = () => {
             {links}
           </ul>
         </div>
-        <Link to={'/'} className="text-xl uppercase">
-          Hos<span className="text-gray-500 -m-2">tel</span>
+        <Link to={'/'} className="text-xl m-0 text-white font-bold uppercase">
+          Hostel
         </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">{links}</ul>
+        <ul className="menu menu-horizontal px-1 text-white">{links}</ul>
       </div>
       <div className="navbar-end">
         {user ? (
@@ -101,7 +101,7 @@ const Navbar = () => {
             </ul>
           </div>
         ) : (
-          <Link to={"/login"} className="btn">
+          <Link to={"/login"} className="btn bg-[#47a3f7] outline-none border-none hover:bg-[#87bdee]">
             Join Us
           </Link>
         )}
