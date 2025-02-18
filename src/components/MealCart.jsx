@@ -13,7 +13,7 @@ const MealCart = ({ item }) => {
   },[item])
 
   return (
-    <div className="card bg-base-100 shadow-xl">
+    <div className="card bg-[#3f8acd] bg-opacity-15 p-3 shadow-xl">
       <figure>
         <img src={item.mealImage} alt="Shoes" />
       </figure>
