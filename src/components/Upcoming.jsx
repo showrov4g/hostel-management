@@ -19,7 +19,7 @@ const Upcoming = () => {
     return (
         <div className='my-20'>
             <div className='my-10'>
-                <h1 className='text-2xl font-semibold'>Next Upcoming Meals</h1>
+                <h1 className='text-2xl md:text-4xl font-semibold text-center'>Next Upcoming Meals</h1>
            
             </div>
             <div className='grid grid-cols-1 md:grid-cols-3 gap-5'>
