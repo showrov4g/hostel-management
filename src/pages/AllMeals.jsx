@@ -41,7 +41,7 @@ const AllMeals = () => {
   return (
     <div className="my-20">
        <div className="text-center">
-        <h1>{category} Meals</h1>
+        <h1 className="text-2xl md:text-4xl lg:text-6xl capitalize font-semibold bg-gradient-to-r from-[#3f8acd] to-[#6052ed] text-transparent bg-clip-text">{category} Meals</h1>
       </div>
           <div className="md:flex gap-4 space-y-8">
      
@@ -63,8 +63,8 @@ const AllMeals = () => {
               aria-label="close sidebar"
               className="drawer-overlay"
             ></label>
-            <div>
-              <ul className="menu bg-[#6375a6] rounded-lg text-base-content h-svh w-60 p-4">
+            <div className="z-50">
+              <ul className="menu bg-[#6375a6] rounded-lg text-[#01080e] h-svh lg:w-60 p-4">
                 {/* Sidebar content here */}
                 <li>
                   <button onClick={() => setCategory("all")}>All meals</button>
@@ -108,7 +108,7 @@ const AllMeals = () => {
           </div>
         </div>
       </div>
-      <div className="flex-1 grid md:grid-cols-2 gap-4 ">
+      <div className="flex-1 grid md:grid-cols-2 gap-4 -z-10">
         {meals?.slice(0, visibleMeals).map((item) => (
           <MealCart key={item._id} item={item}></MealCart>
         ))}
