@@ -39,9 +39,14 @@ const AllMeals = () => {
 
 
   return (
-    <div className="md:flex gap-4 space-y-8">
+    <div className="my-20">
+       <div className="text-center">
+        <h1>{category} Meals</h1>
+      </div>
+          <div className="md:flex gap-4 space-y-8">
+     
       <div className="">
-        <div className="drawer lg:drawer-open">
+        <div className="drawer lg:drawer-open md:mt-8">
           <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
           <div className="drawer-content flex flex-col items-center justify-center">
             {/* Page content here */}
@@ -59,7 +64,7 @@ const AllMeals = () => {
               className="drawer-overlay"
             ></label>
             <div>
-              <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+              <ul className="menu bg-[#6375a6] rounded-lg text-base-content h-svh w-60 p-4">
                 {/* Sidebar content here */}
                 <li>
                   <button onClick={() => setCategory("all")}>All meals</button>
@@ -103,7 +108,7 @@ const AllMeals = () => {
           </div>
         </div>
       </div>
-      <div className="flex-1 grid md:grid-cols-2 gap-4">
+      <div className="flex-1 grid md:grid-cols-2 gap-4 ">
         {meals?.slice(0, visibleMeals).map((item) => (
           <MealCart key={item._id} item={item}></MealCart>
         ))}
@@ -117,6 +122,7 @@ const AllMeals = () => {
       <div>
     
       </div>
+    </div>
     </div>
   );
 };
