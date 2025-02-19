@@ -23,7 +23,9 @@ const AllMeals = () => {
     },
   });
 
-
+  if(isLoading){
+    return <span className="loading loading-bars loading-lg"></span>
+  }
 
 
   

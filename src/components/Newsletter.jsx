@@ -2,7 +2,7 @@ import React from 'react';
 
 const Newsletter = () => {
     return (
-      <div className=" mx-auto px-4 py-10 my-8 rounded-xl bg-[#3f8acd] bg-opacity-15 shadow-md">
+      <div className=" mx-auto px-4 py-10 my-20 rounded-xl bg-[#3f8acd] bg-opacity-15 shadow-md ">
       <div className="w-full md:w-3/6 mx-auto">
         <h1 className=" text-4xl font-bold">Don't miss new meals!</h1>
         <h5 className="text-2xl font-semibold">
