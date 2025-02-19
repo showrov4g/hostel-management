@@ -74,7 +74,7 @@ const MealsDetails = () => {
       userId: user?.uid,
     });
     // ====
-    
+
     if (res.data.modifiedCount) {
       setLike(!like);
       refetch();
@@ -145,7 +145,11 @@ const MealsDetails = () => {
 
     axiosSecure
       .post(`/meals/review/${id}`, review)
-      .then((res) => console.log(res));
+      .then(
+        (res) => toast.success("You have successfully reviews this product"),
+        refetch()
+      )
+      .catch((err) => toast.error(err));
     e.target.reset();
   };
 
@@ -170,7 +174,7 @@ const MealsDetails = () => {
                 {data.mealDetails?.mealName || data.upcomingDetails?.mealName}
               </span>
             </h2>
-              {/* ingredient  */}
+            {/* ingredient  */}
             <p className="text-xl md:text-xl  font-semibold text-gray-800 capitalize flex flex-col md:flex-row items-start justify-start">
               ingredients:
               <span className="text-gray-600 ml-3">
@@ -252,8 +256,8 @@ const MealsDetails = () => {
           </div>
         </div>
       )}
-      <div>
-        <hr />
+      <div className="p-10 space-y-20">
+        <hr className="h-1 bg-[#767df1]" />
         <div className="text-center text-2xl md:text-4xl mt-10">
           Reviews about this Product
         </div>
@@ -262,7 +266,7 @@ const MealsDetails = () => {
             <div className="my-2">
               <p className="text-2xl">Reviews by: {item?.userName}</p>
               <p className="text-wrap">{item?.reviewsText}</p>
-              <hr />
+              <hr className="bg-[#6052ed]" />
             </div>
           ))}
         </div>
