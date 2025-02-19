@@ -17,7 +17,7 @@ const MealsDetails = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [mealName, setMealName] = useState("");
-  const [likes, setLikes] = useState("");
+  const [likes, setLikes] = useState(0);
   const [reviewsCount, setReviewsCount] = useState(0);
   const [mealID, setMealId] = useState();
   const [rating, setRating] = useState(0);
@@ -74,10 +74,11 @@ const MealsDetails = () => {
       userId: user?.uid,
     });
     // ====
+    
     if (res.data.modifiedCount) {
       setLike(!like);
       refetch();
-      toast.success("you have liked this meal");
+      toast.success("you have unlike this meal");
     }
   };
 
@@ -149,47 +150,50 @@ const MealsDetails = () => {
   };
 
   return (
-    <div className=" w-full my-20 mx-auto">
+    <div className=" w-full my-20 mx-auto bg-[#3f8acd]  bg-opacity-15">
       {data && (
-        <div className="flex p-10 bg-[#3f8acd] bg-opacity-15 shadow-xl rounded-2xl">
+        <div className="flex gap-10 p-10  rounded-2xl">
           <figure className="my-5">
             <img
-              className="w-[80%] rounded-xl"
+              className="w-full rounded-xl"
               src={
                 data.mealDetails?.mealImage || data.upcomingDetails?.mealImage
               }
               alt={data.mealDetails?.mealName}
             />
           </figure>
-          <div className="">
-            <h2 className="card-title text-2xl md:text-4xl font-semibold text-gray-800 flex flex-col md:flex-row items-start justify-start">
+          <div className="flex-1">
+            {/* meal name  */}
+            <h2 className="text-2xl md:text-2xl font-semibold text-gray-800">
               Meal Name:
-              <span className="text-gray-600 uppercase">
+              <span className="text-gray-600 uppercase ml-3">
                 {data.mealDetails?.mealName || data.upcomingDetails?.mealName}
               </span>
             </h2>
-            <p className="text-xl md:text-2xl font-semibold text-gray-800 capitalize flex flex-col md:flex-row items-start justify-start">
-              {" "}
-              distributor name:
-              <span className="text-gray-600">
-                {" "}
-                {data.mealDetails?.distributer_name ||
-                  data.upcomingDetails?.distributer_name}
-              </span>
-            </p>
-            <p className="text-xl md:text-2xl  font-semibold text-gray-800 capitalize flex flex-col md:flex-row items-start justify-start">
+              {/* ingredient  */}
+            <p className="text-xl md:text-xl  font-semibold text-gray-800 capitalize flex flex-col md:flex-row items-start justify-start">
               ingredients:
-              <span className="text-gray-600">
+              <span className="text-gray-600 ml-3">
                 {" "}
                 {data.mealDetails?.ingredient ||
                   data.upcomingDetails?.ingredient}
               </span>
             </p>
-            <p className="text-xl md:text-2xl  font-semibold text-gray-800 capitalize flex flex-col md:flex-row items-start justify-start">
+            {/* description  */}
+            <p className="text-xl md:text-xl  font-semibold text-gray-800 capitalize flex flex-col md:flex-row items-start justify-start">
               description:
-              <span className="text-gray-600 text-xl">
+              <span className="text-gray-600 text-lg ml-3">
                 {data.mealDetails?.description ||
                   data.upcomingDetails?.description}
+              </span>
+            </p>
+            {/* distributor name */}
+            <p className="text-lg font-semibold text-gray-800 capitalize flex flex-col md:flex-row items-start justify-start">
+              distributor name:
+              <span className="text-gray-600 ml-3">
+                {" "}
+                {data.mealDetails?.distributer_name ||
+                  data.upcomingDetails?.distributer_name}
               </span>
             </p>
             <p className="text-xl md:text-2xl  font-semibold text-gray-800 capitalize ">
@@ -200,6 +204,7 @@ const MealsDetails = () => {
                 {data.mealDetails?.time || data.upcomingDetails?.time}
               </span>
             </p>
+
             <p>
               <p>
                 <Rating
@@ -244,49 +249,64 @@ const MealsDetails = () => {
             </div>
             {/* ==================== */}
             {/* Rating Submission */}
-            <div className="text-center text-2xl md:text-4xl mt-10">
-              Reviews about this Product
-            </div>
-            <div>
-              {review?.map((item) => (
-                <div className="my-2">
-                  <p className="text-2xl">Reviews by: {item?.userName}</p>
-                  <p className="text-wrap">{item?.reviewsText}</p>
-                  <hr />
-                </div>
-              ))}
-            </div>
-            <div>
-               <h2 className="text-2xl md:text-4xl text-gray-600 font-semibold text-center">Submit your reviews and Rating</h2>
-              <div>
-                <h3>Rate this Meal</h3>
-                <Rating
-                  value={userRating}
-                  onChange={setUserRating}
-                  style={{ maxWidth: 150 }}
-                />
-                <button onClick={handleRating} className="btn btn-sm btn-primary mt-2">
-                  Submit Rating
-                </button>
-              </div>
-              {/* ================== */}
-              <div>
-                <form className="flex flex-col items-start justify-center gap-5" onSubmit={handleReviews}>
-                  <p>Write a review:</p>
-                  <textarea 
-                  className="border-2 w-full md:w-[50%] p-4"
-                    placeholder="Write a review"
-                    name="reviews"
-                    id=""
-                    required
-                  ></textarea>
-                  <input className="btn btn-primary" type="submit" value={"Submit"} />
-                </form>
-              </div>
-            </div>
           </div>
         </div>
       )}
+      <div>
+        <hr />
+        <div className="text-center text-2xl md:text-4xl mt-10">
+          Reviews about this Product
+        </div>
+        <div>
+          {review?.map((item) => (
+            <div className="my-2">
+              <p className="text-2xl">Reviews by: {item?.userName}</p>
+              <p className="text-wrap">{item?.reviewsText}</p>
+              <hr />
+            </div>
+          ))}
+        </div>
+        <div>
+          <h2 className="text-2xl md:text-4xl text-gray-600 font-semibold text-center">
+            Submit your reviews and Rating
+          </h2>
+          <div>
+            <h3>Rate this Meal</h3>
+            <Rating
+              value={userRating}
+              onChange={setUserRating}
+              style={{ maxWidth: 150 }}
+            />
+            <button
+              onClick={handleRating}
+              className="btn btn-sm btn-primary mt-2"
+            >
+              Submit Rating
+            </button>
+          </div>
+          {/* ================== */}
+          <div>
+            <form
+              className="flex flex-col items-start justify-center gap-5"
+              onSubmit={handleReviews}
+            >
+              <p>Write a review:</p>
+              <textarea
+                className="border-2 w-full md:w-[50%] p-4"
+                placeholder="Write a review"
+                name="reviews"
+                id=""
+                required
+              ></textarea>
+              <input
+                className="btn btn-primary"
+                type="submit"
+                value={"Submit"}
+              />
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
