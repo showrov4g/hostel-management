@@ -53,12 +53,12 @@ const AdminDashboard = () => {
           </div>
         </div>
       </div>
-      <div className="w-11/12 mx-auto">
+      <div className="w-11/12 mx-auto my-20">
         {/* navbar  */}
 
         {/* navbar end */}
         <div className="md:flex gap-12 space-y-5">
-          <div className="bg-green-50">
+          <div className="bg-green-50 rounded-lg">
             <div>
               <div className="drawer lg:drawer-open">
                 <input
@@ -81,7 +81,7 @@ const AdminDashboard = () => {
                     aria-label="close sidebar"
                     className="drawer-overlay"
                   ></label>
-                  <ul className="menu bg-base-200 text-xl min-h-full w-80 p-4">
+                  <ul className="menu bg-[#6375a6] text-xl min-h-full rounded-xl w-80 p-4">
                     {/* Sidebar content here */}
                     {isAdmin ? (
                       // admin
