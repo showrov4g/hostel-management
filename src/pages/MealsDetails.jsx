@@ -149,9 +149,9 @@ const MealsDetails = () => {
   };
 
   return (
-    <div className=" w-full md:w-10/12 mx-auto">
+    <div className=" w-full my-20 mx-auto">
       {data && (
-        <div className="card bg-base-100 shadow-xl rounded-2xl">
+        <div className="flex p-10 bg-[#3f8acd] bg-opacity-15 shadow-xl rounded-2xl">
           <figure className="my-5">
             <img
               className="w-[80%] rounded-xl"
@@ -161,7 +161,7 @@ const MealsDetails = () => {
               alt={data.mealDetails?.mealName}
             />
           </figure>
-          <div className="card-body">
+          <div className="">
             <h2 className="card-title text-2xl md:text-4xl font-semibold text-gray-800 flex flex-col md:flex-row items-start justify-start">
               Meal Name:
               <span className="text-gray-600 uppercase">
