@@ -31,7 +31,7 @@ const MealCart = ({ item }) => {
         <Rating  readOnly style={{ maxWidth: 120 }} value={rating}/>
         </p>
         <div className="card-actions justify-end">
-          <Link to={`/mealsdetails/${item._id}`}  className="btn bg-[#3f8acd] hover:bg-[#6052ed] text-[#01080e] capitalize">details</Link>
+          <Link to={`/mealsdetails/${item._id}`}  className="btn bg-[#3f8acd] hover:bg-[#6052ed] text-[#01080e] capitalize cursor-pointer">details</Link>
           
         </div>
       </div>

@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
-import { Link } from "react-router";
 import UseAxiosPublic from "../Hooks/UseAxiosPublic";
 import MealCart from "../components/MealCart";
 
@@ -108,7 +107,7 @@ const AllMeals = () => {
           </div>
         </div>
       </div>
-      <div className="flex-1 grid md:grid-cols-2 gap-4 -z-10">
+      <div className="flex-1 grid md:grid-cols-2 gap-4 ">
         {meals?.slice(0, visibleMeals).map((item) => (
           <MealCart key={item._id} item={item}></MealCart>
         ))}
