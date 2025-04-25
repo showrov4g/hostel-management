@@ -6,14 +6,13 @@ import { FaGoogle } from "react-icons/fa";
 import UseAxiosPublic from "../Hooks/UseAxiosPublic";
 import { useLocation, useNavigate } from "react-router";
 import Swal from "sweetalert2";
-// image hosting secret
+
 const imageHostingKey = import.meta.env.VITE_IMAGE_HOSTING_KEY;
 const imageHostingApi = `https://api.imgbb.com/1/upload?key=${imageHostingKey}`;
 
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location);
   const axiosPublic = UseAxiosPublic();
   const [displayURL, setDisplayURL] = useState();
   const {
@@ -25,21 +24,18 @@ const Login = () => {
   const { createUser, loginUser, loginWithGoogle, updateUserProfile } =
     useContext(AuthContext);
 
-  //   account create and login functions
   const onSubmit = async (data) => {
     const { name, email, password, photo } = data;
     const imageList = { image: photo?.[0] };
 
-    {
-      states === "sign up"
-        ? axiosPublic
-            .post(imageHostingApi, imageList, {
-              headers: {
-                "content-type": "multipart/form-data",
-              },
-            })
-            .then((res) => (setDisplayURL(res.data.data.display_url)))
-        : "";
+    if (states === "sign up") {
+      await axiosPublic
+        .post(imageHostingApi, imageList, {
+          headers: {
+            "content-type": "multipart/form-data",
+          },
+        })
+        .then((res) => setDisplayURL(res.data.data.display_url));
     }
 
     const usersInfo = {
@@ -50,41 +46,36 @@ const Login = () => {
       subscription: "Bronze",
     };
 
-    {
-      states === "sign up"
-        ? createUser(email, password)
-            .then(
-              (res) => (
-                updateUserProfile({
-                  displayName: name,
-                  photoURL: displayURL,
-                }),
-                axiosPublic.post("/users", usersInfo).then((res) => {
-                  navigate(location?.state ? location.state : "/");
-                  if (res.data.insertedId) {
-                    Swal.fire({
-                      position: "top-end",
-                      icon: "success",
-                      title: "Your account create successfully",
-                      showConfirmButton: false,
-                      timer: 1500,
-                    });
-                  }
-                })
-              )
-            )
-            .catch((err) => toast.error(err.message))
-        : loginUser(email, password)
-            .then((res) => {
-              navigate(location?.state ? location.state : "/");
-              toast.success("You have successfully login");
-              
-            })
-            .catch((err) => toast.error(err.message));
+    if (states === "sign up") {
+      createUser(email, password)
+        .then(() => {
+          updateUserProfile({
+            displayName: name,
+            photoURL: displayURL,
+          });
+          axiosPublic.post("/users", usersInfo).then((res) => {
+            navigate(location?.state ? location.state : "/");
+            if (res.data.insertedId) {
+              Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Your account was created successfully",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+            }
+          });
+        })
+        .catch((err) => toast.error(err.message));
+    } else {
+      loginUser(email, password)
+        .then(() => {
+          navigate(location?.state ? location.state : "/");
+          toast.success("You have successfully logged in");
+        })
+        .catch((err) => toast.error(err.message));
     }
   };
-
-  //   login with google
 
   const handleGoogleLOgin = () => {
     loginWithGoogle()
@@ -104,7 +95,7 @@ const Login = () => {
               Swal.fire({
                 position: "top-end",
                 icon: "success",
-                title: "Your account create successfully",
+                title: "Your account was created successfully",
                 showConfirmButton: false,
                 timer: 1500,
               });
@@ -116,117 +107,108 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className="bg-[#F9FAFB] min-h-[100vh] flex items-center justify-center">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="min-h-[80vh] flex items-center"
+        className="bg-white shadow-xl rounded-xl p-10 w-full max-w-md text-[#111827]"
       >
-        <div className="flex flex-col gap-3 m-auto items-start p-8 min-w-[340px] sm:min-w-96 border rounded-xl text-zinc-600 text-sm shadow-lg ">
-          <p className="text-2xl font-semibold">
-            {states === "sign up" ? "Create an Account" : "Login now"}
-          </p>
-          {/* name input field  */}
-          {states === "sign up" ? (
-            <div className="w-full">
-              <p>Your Name</p>
+        <h2 className="text-3xl font-bold mb-6 text-center">
+          {states === "sign up" ? "Create an Account" : "Login Now"}
+        </h2>
+
+        {states === "sign up" && (
+          <>
+            <div className="mb-4">
+              <label className="block mb-1 font-medium">Your Name</label>
               <input
-                className="border border-x-zinc-300 rounded w-full p-2 mt-1"
+                className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#06B6D4]"
                 type="text"
-                placeholder="Inter your name"
+                placeholder="Enter your name"
                 {...register("name", { required: true })}
-                aria-invalid={errors.name ? "true" : "false"}
               />
-              {errors.name?.type === "required" && (
-                <p role="alert" className="text-red-600">
-                  Name is required
-                </p>
+              {errors.name && (
+                <p className="text-[#F43F5E] text-sm mt-1">Name is required</p>
               )}
             </div>
-          ) : (
-            ""
-          )}
-          {states === "sign up" ? (
-            <div className="w-full">
-              <p>Your Name</p>
+            <div className="mb-4">
+              <label className="block mb-1 font-medium">Profile Image</label>
               <input
-                className="border border-x-zinc-300 rounded w-full p-2 mt-1"
+                className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#06B6D4]"
                 type="file"
-                placeholder="Inter your name"
                 {...register("photo", { required: true })}
-                aria-invalid={errors.name ? "true" : "false"}
               />
-              {errors.photo?.type === "required" && (
-                <p role="alert" className="text-red-600">
-                  profile image is require
+              {errors.photo && (
+                <p className="text-[#F43F5E] text-sm mt-1">
+                  Profile image is required
                 </p>
               )}
             </div>
-          ) : (
-            ""
+          </>
+        )}
+
+        <div className="mb-4">
+          <label className="block mb-1 font-medium">Your Email</label>
+          <input
+            className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#06B6D4]"
+            type="email"
+            placeholder="Enter your email"
+            {...register("email", { required: true })}
+          />
+          {errors.email && (
+            <p className="text-[#F43F5E] text-sm mt-1">Email is required</p>
           )}
-          {/* email input field  */}
-          <div className="w-full">
-            <p>Your Email</p>
-            <input
-              className="border border-x-zinc-300 rounded w-full p-2 mt-1"
-              type="email"
-              placeholder="Inter your email"
-              {...register("email", { required: true })}
-              aria-invalid={errors.email ? "true" : "false"}
-            />
-            {errors.email?.type === "required" && (
-              <p role="alert" className="text-red-600">
-                Email is required
-              </p>
-            )}
-          </div>
-          {/* password input field  */}
-          <div className="w-full">
-            <p> Password</p>
-            <input
-              className="border border-x-zinc-300 rounded w-full p-2 mt-1"
-              type="password"
-              placeholder="Inter your password"
-              {...register("password", { required: true, maxLength: 20 })}
-              aria-invalid={errors.password ? "true" : "false"}
-            />
-            {errors.password?.type === "required" && (
-              <p role="alert" className="text-red-600">
-                Password is required
-              </p>
-            )}
-          </div>
-          <button className="bg-primary text-white w-full py-2 rounded-md text-base ">
-            {states === "sign up" ? <p>Create Account</p> : <p>Login</p>}
-          </button>
+        </div>
+
+        <div className="mb-6">
+          <label className="block mb-1 font-medium">Password</label>
+          <input
+            className="w-full border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-[#06B6D4]"
+            type="password"
+            placeholder="Enter your password"
+            {...register("password", { required: true, maxLength: 20 })}
+          />
+          {errors.password && (
+            <p className="text-[#F43F5E] text-sm mt-1">Password is required</p>
+          )}
+        </div>
+
+        <button
+          type="submit"
+          className="w-full bg-[#6366F1] text-white py-2 rounded-md text-lg font-semibold hover:bg-[#4F46E5] transition"
+        >
+          {states === "sign up" ? "Create Account" : "Login"}
+        </button>
+
+        <p className="mt-4 text-sm text-center">
           {states === "sign up" ? (
-            <p>
-              Already have an account?
+            <>Already have an account?{' '}
               <span
                 onClick={() => setStates("Login")}
-                className="text-primary underline cursor-pointer"
+                className="text-[#6366F1] cursor-pointer underline"
               >
                 Login here
               </span>
-            </p>
+            </>
           ) : (
-            <p>
-              Create a new account?{" "}
+            <>Create a new account?{' '}
               <span
                 onClick={() => setStates("sign up")}
-                className="text-primary underline cursor-pointer"
+                className="text-[#6366F1] cursor-pointer underline"
               >
                 Click here
               </span>
-            </p>
+            </>
           )}
-          {/* social media login  */}
-          <a
+        </p>
+
+        <div className="mt-6">
+          <button
+            type="button"
             onClick={handleGoogleLOgin}
-            className="flex items-center justify-center gap-4 bg-primary text-white w-full py-2 rounded-md text-base cursor-pointer text-center"
+            className="w-full flex items-center justify-center gap-3 bg-[#06B6D4] text-white py-2 rounded-md hover:bg-[#0891B2] transition"
           >
-            <FaGoogle className="text-2xl" /> GOOGLE
-          </a>
+            <FaGoogle className="text-xl" /> Continue with Google
+          </button>
         </div>
       </form>
     </div>
