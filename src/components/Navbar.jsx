@@ -29,19 +29,19 @@ const Navbar = () => {
       <li>
         <NavLink to={"/upcomingmeals"}>Upcoming Meals</NavLink>
       </li>
-   
+
       <li>
         <NavLink to={'/dashboard'}>Dashboard</NavLink>
       </li>
-  
+
     </>
   );
   return (
-   <div className="bg-[#6375a6] z-50" style={{position: "sticky", top:"0"}}>
-     <div className="navbar w-11/12 mx-auto">
+    <div className="bg-[#F9FAFB] z-50" style={{ position: "sticky", top: "0" }}>
+    <div className="navbar w-11/12 mx-auto text-[#111827]">
       <div className="navbar-start">
         <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden text-[#111827]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -59,17 +59,17 @@ const Navbar = () => {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+            className="menu menu-sm dropdown-content bg-[#F9FAFB] text-[#111827] rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
             {links}
           </ul>
         </div>
-        <Link to={'/'} className="text-xl m-0 text-white font-bold uppercase">
+        <Link to={'/'} className="text-xl m-0 text-[#6366F1] font-bold uppercase">
           Hostel
         </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1 text-white">{links}</ul>
+        <ul className="menu menu-horizontal px-1 text-[#111827] font-medium">{links}</ul>
       </div>
       <div className="navbar-end">
         {user ? (
@@ -80,34 +80,39 @@ const Navbar = () => {
               className="btn btn-ghost btn-circle avatar"
             >
               <div className="w-10 rounded-full">
-                <img alt="Tailwind CSS Navbar component" src={user?.photoURL} />
+                <img alt="User Avatar" src={user?.photoURL} />
               </div>
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+              className="menu menu-sm dropdown-content bg-[#F9FAFB] text-[#111827] rounded-box z-[1] mt-3 w-52 p-2 shadow"
             >
               <p className="justify-between ml-3">
                 {user?.displayName}
-                <span className="badge">New</span>
+                <span className="badge bg-[#06B6D4] text-white">New</span>
               </p>
-
+              <li><a>Settings</a></li>
               <li>
-                <a>Settings</a>
-              </li>
-              <li>
-                <a onClick={handleLogOut}>Logout</a>
+                <a onClick={handleLogOut} className="hover:text-[#F43F5E]">
+                  Logout
+                </a>
               </li>
             </ul>
           </div>
         ) : (
-          <Link to={"/login"} className="btn bg-[#47a3f7] outline-none border-none hover:bg-[#87bdee]">
+          <Link
+            to={"/login"}
+            className="btn bg-[#6366F1] text-white outline-none border-none hover:bg-[#4f46e5]"
+          >
             Join Us
           </Link>
         )}
       </div>
     </div>
-   </div>
+  </div>
+  
+
+
   );
 };
 
