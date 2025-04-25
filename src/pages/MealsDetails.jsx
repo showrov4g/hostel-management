@@ -7,10 +7,8 @@ import { AuthContext } from "../context/AuthProvider";
 import { toast } from "react-toastify";
 
 const MealsDetails = () => {
-  // State variable
   const [like, setLike] = useState(false);
   const [userRating, setUserRating] = useState(0);
-  // ======
   const { user } = useContext(AuthContext);
   const { id } = useParams();
   const axiosSecure = UseAxiosSecure();
@@ -21,9 +19,7 @@ const MealsDetails = () => {
   const [reviewsCount, setReviewsCount] = useState(0);
   const [mealID, setMealId] = useState();
   const [rating, setRating] = useState(0);
-  console.log(rating);
 
-  // Fetch meal details
   const { data, refetch } = useQuery({
     queryKey: ["details", id],
     queryFn: async () => {
@@ -31,15 +27,13 @@ const MealsDetails = () => {
         axiosSecure.get(`/meals/meal/${id}`),
         axiosSecure.get(`/upcoming-meal/${id}`),
       ]);
-
-      const combineData = {
+      return {
         mealDetails: mealDetails.data,
         upcomingDetails: upcomingDetails.data,
       };
-      return combineData;
     },
   });
-  // meal review data fetching
+
   const { data: review } = useQuery({
     queryKey: ["reviews"],
     queryFn: async () => {
@@ -47,23 +41,15 @@ const MealsDetails = () => {
       return res.data;
     },
   });
+
   useEffect(() => {
     setMealName(data?.mealDetails?.mealName);
-  }, [data]);
-  useEffect(() => {
     setLikes(data?.mealDetails?.likes);
-  }, [data]);
-  useEffect(() => {
     setReviewsCount(data?.mealDetails?.ratingCount);
-  }, [data]);
-  useEffect(() => {
     setMealId(data?.mealDetails?._id);
-  }, [data]);
-  useEffect(() => {
     setRating(data?.mealDetails?.ratings?.length);
   }, [data]);
 
-  // Handle Like/Unlike API call
   const handleLike = async () => {
     if (!user) {
       toast.error("You need to login first");
@@ -73,16 +59,12 @@ const MealsDetails = () => {
     const res = await axiosSecure.patch(`/meals/like/${id}`, {
       userId: user?.uid,
     });
-    // ====
-
     if (res.data.modifiedCount) {
       setLike(!like);
       refetch();
-      toast.success("you have unlike this meal");
+      toast.success("You have unlike this meal");
     }
   };
-
-  // handle request meal
 
   const handleMealRequest = (details) => {
     const { mealName, likes } = details;
@@ -100,12 +82,12 @@ const MealsDetails = () => {
     }
     axiosSecure
       .post("/meals/request", mealRequest)
-      .then((res) => toast.success("You have successfully request for meal"))
+      .then((res) => toast.success("You have successfully requested the meal"))
       .catch((err) => {
-        toast.error("You need an subscription");
+        toast.error("You need a subscription");
       });
   };
-  // rating
+
   const handleRating = async () => {
     if (!user) {
       toast.error("You need to login first");
@@ -128,7 +110,6 @@ const MealsDetails = () => {
       });
   };
 
-  // =================
   const handleReviews = (e) => {
     e.preventDefault();
     const reviewText = e.target.reviews.value;
@@ -146,7 +127,7 @@ const MealsDetails = () => {
     axiosSecure
       .post(`/meals/review/${id}`, review)
       .then(
-        (res) => toast.success("You have successfully reviews this product"),
+        (res) => toast.success("You have successfully reviewed this product"),
         refetch()
       )
       .catch((err) => toast.error(err));
@@ -154,128 +135,102 @@ const MealsDetails = () => {
   };
 
   return (
-    <div className=" w-full my-20 mx-auto bg-[#3f8acd]  bg-opacity-15">
+    <div className="w-full my-20 mx-auto bg-[#F9FAFB]">
       {data && (
-        <div className="flex gap-10 p-10  rounded-2xl">
+        <div className="flex gap-10 p-10 rounded-2xl bg-white shadow-lg">
           <figure className="my-5">
             <img
               className="w-full rounded-xl"
-              src={
-                data.mealDetails?.mealImage || data.upcomingDetails?.mealImage
-              }
-              alt={data.mealDetails?.mealName}
+              src={data?.mealDetails?.mealImage || data?.upcomingDetails?.mealImage}
+              alt={data?.mealDetails?.mealName}
             />
           </figure>
           <div className="flex-1">
-            {/* meal name  */}
-            <h2 className="text-2xl md:text-2xl font-semibold text-gray-800">
+            <h2 className="text-2xl font-semibold text-[#111827]">
               Meal Name:
-              <span className="text-gray-600 uppercase ml-3">
-                {data.mealDetails?.mealName || data.upcomingDetails?.mealName}
+              <span className="text-[#6366F1] ml-3">
+                {data?.mealDetails?.mealName || data?.upcomingDetails?.mealName}
               </span>
             </h2>
-            {/* ingredient  */}
-            <p className="text-xl md:text-xl  font-semibold text-gray-800 capitalize flex flex-col md:flex-row items-start justify-start">
-              ingredients:
-              <span className="text-gray-600 ml-3">
-                {" "}
-                {data.mealDetails?.ingredient ||
-                  data.upcomingDetails?.ingredient}
+            <p className="text-xl font-semibold text-[#111827] capitalize">
+              Ingredients:
+              <span className="text-[#06B6D4] ml-3">
+                {data?.mealDetails?.ingredient || data?.upcomingDetails?.ingredient}
               </span>
             </p>
-            {/* description  */}
-            <p className="text-xl md:text-xl  font-semibold text-gray-800 capitalize flex flex-col md:flex-row items-start justify-start">
-              description:
-              <span className="text-gray-600 text-lg ml-3">
-                {data.mealDetails?.description ||
-                  data.upcomingDetails?.description}
+            <p className="text-xl font-semibold text-[#111827] capitalize">
+              Description:
+              <span className="text-[#06B6D4] text-lg ml-3">
+                {data?.mealDetails?.description || data?.upcomingDetails?.description}
               </span>
             </p>
-            {/* distributor name */}
-            <p className="text-lg font-semibold text-gray-800 capitalize flex flex-col md:flex-row items-start justify-start">
-              distributor name:
-              <span className="text-gray-600 ml-3">
-                {" "}
-                {data.mealDetails?.distributer_name ||
-                  data.upcomingDetails?.distributer_name}
+            <p className="text-lg font-semibold text-[#111827] capitalize">
+              Distributor Name:
+              <span className="text-[#06B6D4] ml-3">
+                {data?.mealDetails?.distributer_name || data?.upcomingDetails?.distributer_name}
               </span>
             </p>
-            <p className="text-xl md:text-2xl  font-semibold text-gray-800 capitalize ">
-              {" "}
-              post time :
-              <span className="text-gray-600">
-                {" "}
-                {data.mealDetails?.time || data.upcomingDetails?.time}
+            <p className="text-xl font-semibold text-[#111827] capitalize">
+              Post Time:
+              <span className="text-[#06B6D4]">
+                {data?.mealDetails?.time || data?.upcomingDetails?.time}
               </span>
             </p>
 
-            <p>
-              <p>
-                <Rating
-                  className=""
-                  readOnly
-                  style={{ maxWidth: 120 }}
-                  value={
-                    data.mealDetails?.averageRating ||
-                    0 ||
-                    data.upcomingDetails?.averageRating ||
-                    0
-                  }
-                />
-                (
-                {data.mealDetails?.ratingCount ||
-                  rating ||
-                  data.upcomingDetails?.ratingCount ||
-                  rating}
-                Rating)
-              </p>
+            <div className="my-3">
+              <Rating
+                readOnly
+                style={{ maxWidth: 120 }}
+                value={data?.mealDetails?.averageRating || 0}
+              />
+              <span className="ml-2 text-[#111827]">
+                ({data?.mealDetails?.ratingCount || rating} Rating)
+              </span>
+            </div>
+            <p className="text-[#111827]">
+              Likes: {data?.mealDetails?.likes || data?.upcomingDetails?.likes}
             </p>
-            <p>
-              Likes: {data.mealDetails?.likes || data.upcomingDetails?.likes}
-            </p>
-            <div className="card-actions justify-end">
+            <div className="flex gap-4 mt-4">
               <button
                 onClick={handleLike}
-                className={`btn ${like ? "btn-secondary" : "btn-primary"}`}
+                className={`btn ${like ? "bg-[#F43F5E] text-white" : "bg-[#6366F1] text-white"} hover:opacity-80 transition`}
               >
                 {like ? "Unlike" : "Like"}
               </button>
-              {data?.mealDetails ? (
+              {data?.mealDetails && (
                 <button
-                  onClick={() => handleMealRequest(data.mealDetails)}
-                  className="btn btn-primary"
+                  onClick={() => handleMealRequest(data?.mealDetails)}
+                  className="btn bg-[#06B6D4] text-white hover:opacity-80 transition"
                 >
                   Meal Request
                 </button>
-              ) : (
-                ""
               )}
             </div>
-            {/* ==================== */}
-            {/* Rating Submission */}
           </div>
         </div>
       )}
-      <div className="p-10 space-y-20">
-        <hr className="h-1 bg-[#767df1]" />
-        <div className="text-center text-2xl md:text-4xl mt-10">
+
+      <div className="p-10 space-y-10">
+        <hr className="bg-[#6366F1]" />
+        <div className="text-center text-2xl md:text-4xl mt-10 text-[#111827]">
           Reviews about this Product
         </div>
         <div>
           {review?.map((item) => (
-            <div className="my-2">
-              <p className="text-2xl">Reviews by: {item?.userName}</p>
-              <p className="text-wrap">{item?.reviewsText}</p>
-              <hr className="bg-[#6052ed]" />
+            <div key={item._id} className="my-4 p-4 bg-white shadow-md rounded-xl">
+              <p className="text-2xl font-semibold text-[#111827]">Reviews by: {item?.userName}</p>
+              <p className="text-[#6366F1]">{item?.reviewsText}</p>
+              <hr className="bg-[#6366F1] my-4" />
             </div>
           ))}
         </div>
-        <div>
-          <h2 className="text-2xl md:text-4xl text-gray-600 font-semibold text-center">
+
+        <div className="mt-10">
+          <h2 className="text-2xl md:text-4xl text-[#111827] font-semibold text-center">
             Submit your reviews and Rating
           </h2>
-          <div>
-            <h3>Rate this Meal</h3>
+          <div className="my-5">
+            <h3 className="text-[#6366F1]">Rate this Meal</h3>
             <Rating
               value={userRating}
               onChange={setUserRating}
@@ -283,27 +238,27 @@ const MealsDetails = () => {
             />
             <button
               onClick={handleRating}
-              className="btn btn-sm btn-primary mt-2"
+              className="btn btn-sm bg-[#F43F5E] text-white mt-2 hover:opacity-80 transition"
             >
               Submit Rating
             </button>
           </div>
-          {/* ================== */}
+
           <div>
             <form
               className="flex flex-col items-start justify-center gap-5"
               onSubmit={handleReviews}
             >
-              <p>Write a review:</p>
+              <p className="text-[#111827]">Write a review:</p>
               <textarea
-                className="border-2 w-full md:w-[50%] p-4"
+                className="border-2 w-full md:w-[50%] p-4 rounded-xl"
                 placeholder="Write a review"
                 name="reviews"
                 id=""
                 required
               ></textarea>
               <input
-                className="btn btn-primary"
+                className="btn bg-[#6366F1] text-white mt-4 hover:opacity-80 transition"
                 type="submit"
                 value={"Submit"}
               />
