@@ -24,8 +24,8 @@ const AllMealsAddedbyAdmin = () => {
       text: "You won't be able to revert this!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: "#6366F1", // Primary Color (Indigo)
+      cancelButtonColor: "#F43F5E", // Accent Color (Rose Red)
       confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
@@ -44,22 +44,32 @@ const AllMealsAddedbyAdmin = () => {
 
   const handleSort =(sort)=>{
     setSortBy(sort);
-
   }
 
-
   return (
-    <div>
-      <h1 className="text-4xl font-semibold mb-5">You Have Added: {meals?.length} Meals</h1>
+    <div className="bg-[#F9FAFB] p-5">
+      <h1 className="text-[#111827] text-4xl font-semibold mb-5">You Have Added: {meals?.length} Meals</h1>
       <div className="mb-4">
-        <button onClick={() => handleSort("likes")} className="btn btn-primary">Sort by Likes</button>
-        <button onClick={() => handleSort("reviews")} className="btn btn-primary ml-2">Sort by Reviews Count</button>
+        <button 
+          onClick={() => handleSort("likes")} 
+          className="btn" 
+          style={{ backgroundColor: "#6366F1", color: "#fff" }} // Primary Color (Indigo)
+        >
+          Sort by Likes
+        </button>
+        <button 
+          onClick={() => handleSort("reviews")} 
+          className="btn ml-2" 
+          style={{ backgroundColor: "#6366F1", color: "#fff" }} // Primary Color (Indigo)
+        >
+          Sort by Reviews Count
+        </button>
       </div>
 
       <div className="overflow-x-auto">
         <table className="table table-zebra">
           {/* head */}
-          <thead className="bg-primary text-white font-semibold">
+          <thead style={{ backgroundColor: "#6366F1", color: "#fff" }} className="font-semibold">
             <tr>
               <th>SL</th>
               <th>Meal Name</th>
@@ -71,8 +81,6 @@ const AllMealsAddedbyAdmin = () => {
             </tr>
           </thead>
           <tbody>
-            {/* row 1 */}
-
             {meals?.map((item, index) => (
               <tr key={item?._id}>
                 <th>{index + 1}</th>
@@ -82,11 +90,25 @@ const AllMealsAddedbyAdmin = () => {
                 <td>{item?.rating}</td>
                 <td>{item?.distributer_name}</td>
                 <td className="flex flex-col md:flex-row gap-3">
-                  <button className="btn btn-primary"><Link to={`/dashboard/updateMeals/${item?._id}`}>Update</Link></button>
-                  <button className="btn btn-error" onClick={() => handleDelete(item?._id)}>
+                  <button 
+                    className="btn" 
+                    style={{ backgroundColor: "#6366F1", color: "#fff" }} // Primary Color (Indigo)
+                  >
+                    <Link to={`/dashboard/updateMeals/${item?._id}`}>Update</Link>
+                  </button>
+                  <button 
+                    className="btn" 
+                    style={{ backgroundColor: "#F43F5E", color: "#fff" }} // Accent Color (Rose Red)
+                    onClick={() => handleDelete(item?._id)}
+                  >
                     Delete
                   </button>
-                  <button className="btn btn-primary"><Link to={`/mealsdetails`}>Views meals</Link></button>
+                  <button 
+                    className="btn" 
+                    style={{ backgroundColor: "#6366F1", color: "#fff" }} // Primary Color (Indigo)
+                  >
+                    <Link to={`/mealsdetails`}>View Meals</Link>
+                  </button>
                 </td>
               </tr>
             ))}

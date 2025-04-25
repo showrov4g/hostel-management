@@ -20,7 +20,7 @@ const ServeMeals = () => {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
+      confirmButtonText: "Yes, serve it!",
     }).then( async(result) => {
       if (result.isConfirmed) {
         // Swal.fire({
@@ -34,7 +34,6 @@ const ServeMeals = () => {
       }
     });
   };
-  console.log(serve);
   return (
     <div>
       <h2 className="text-4xl text-semibold mb-5">Serve meals: {serve.length}</h2>

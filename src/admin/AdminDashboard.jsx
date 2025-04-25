@@ -37,17 +37,18 @@ const AdminDashboard = () => {
       )
       .catch((err) => console.log(err));
   };
+
   return (
     <div>
-      <div className="bg-[#6375a6]">
+      <div className="bg-[#F9FAFB]">
         <div className="navbar w-11/12 mx-auto">
           <div className="flex-1">
-            <Link to={"/dashboard"} className="btn btn-ghost text-xl">
+            <Link to={"/dashboard"} className="btn btn-ghost text-xl text-[#111827]">
               Dashboard
             </Link>
           </div>
           <div className="flex-none">
-            <button onClick={handleLogOut} className="btn btn-primary">
+            <button onClick={handleLogOut} className="btn bg-[#6366F1] text-white">
               Logout
             </button>
           </div>
@@ -55,10 +56,9 @@ const AdminDashboard = () => {
       </div>
       <div className="w-11/12 mx-auto my-20">
         {/* navbar  */}
-
         {/* navbar end */}
         <div className="md:flex gap-12 space-y-5">
-          <div className="bg-green-50 rounded-lg">
+          <div className="bg-[#F9FAFB] rounded-lg shadow-lg">
             <div>
               <div className="drawer lg:drawer-open">
                 <input
@@ -70,7 +70,7 @@ const AdminDashboard = () => {
                   {/* Page content here */}
                   <label
                     htmlFor="my-drawer-2"
-                    className="btn btn-primary drawer-button lg:hidden"
+                    className="btn bg-[#6366F1] text-white drawer-button lg:hidden"
                   >
                     Open menu
                   </label>
@@ -81,51 +81,56 @@ const AdminDashboard = () => {
                     aria-label="close sidebar"
                     className="drawer-overlay"
                   ></label>
-                  <ul className="menu bg-[#6375a6] text-xl min-h-full rounded-xl w-80 p-4">
+                  <ul className="menu bg-[#06B6D4] text-[#111827] text-xl min-h-full rounded-xl w-80 p-4">
                     {/* Sidebar content here */}
                     {isAdmin ? (
                       // admin
                       <div>
                         <li>
-                          <Link to={"overview"}>
+                          <Link to={"overview"} className="hover:text-[#F43F5E]">
                             <IoAddCircle /> Overview
                           </Link>
                         </li>
                         <li>
-                          <Link to={"additem"}>
+                          <Link to={"additem"} className="hover:text-[#F43F5E]">
                             <IoAddCircle /> Add an item
                           </Link>
                         </li>
                         <li>
-                          <Link to={"addUpcomingMeal"}>
+                          <Link to={"addUpcomingMeal"} className="hover:text-[#F43F5E]">
                             <IoAddCircle />
                             Add upcoming Meal
                           </Link>
                         </li>
 
                         <li>
-                          <Link to={"alluser"}>
+                          <Link to={"alluser"} className="hover:text-[#F43F5E]">
                             <FaUsers /> All user
                           </Link>
                         </li>
 
                         <li>
-                          <Link to={"adminProfile"}>
+                          <Link to={"adminProfile"} className="hover:text-[#F43F5E]">
                             <MdAdminPanelSettings /> Admin Profile
                           </Link>
                         </li>
                         <li>
-                          <Link to={"allAddedMealsAdmin"}>
+                          <Link to={"allAddedMealsAdmin"} className="hover:text-[#F43F5E]">
                             <RiAlignItemLeftFill /> All Meals
                           </Link>
-                          <Link to={"allreviews"}>
+                        </li>
+                        <li>
+                          <Link to={"allreviews"} className="hover:text-[#F43F5E]">
                             <MdReviews /> All Reviews
                           </Link>
-                          <Link to={"serve"}>
+                        </li>
+                        <li>
+                          <Link to={"serve"} className="hover:text-[#F43F5E]">
                             <FaCookie /> Serve Meals
                           </Link>
-                          <Link></Link>
-                          <Link to={"/"}>
+                        </li>
+                        <li>
+                          <Link to={"/"} className="hover:text-[#F43F5E]">
                             <FaHome /> Go to Home
                           </Link>
                         </li>
@@ -134,28 +139,27 @@ const AdminDashboard = () => {
                       // user
                       <div>
                         <li>
-                          <Link to={"requested"}>
-                            <FaRegQuestionCircle></FaRegQuestionCircle> My
-                            Requested Meals
+                          <Link to={"requested"} className="hover:text-[#F43F5E]">
+                            <FaRegQuestionCircle /> My Requested Meals
                           </Link>
                         </li>
                         <li>
-                          <Link to={"reviews"}>
+                          <Link to={"reviews"} className="hover:text-[#F43F5E]">
                             <MdOutlineReviews /> My Reviews
                           </Link>
                         </li>
                         <li>
-                          <Link to={"userprofile"}>
+                          <Link to={"userprofile"} className="hover:text-[#F43F5E]">
                             <CgProfile /> My Profile
                           </Link>
                         </li>
                         <li>
-                          <Link to={"history"}>
+                          <Link to={"history"} className="hover:text-[#F43F5E]">
                             <CgProfile /> My Payment History
                           </Link>
                         </li>
                         <li>
-                          <Link to={"/"}>
+                          <Link to={"/"} className="hover:text-[#F43F5E]">
                             <FaHome /> Go to Home
                           </Link>
                         </li>
@@ -166,7 +170,7 @@ const AdminDashboard = () => {
               </div>
             </div>
           </div>
-          <div className="md:flex-1 bg-green-100 p-2 md:p-14">
+          <div className="md:flex-1 bg-[#F9FAFB] p-2 md:p-14">
             <Outlet></Outlet>
           </div>
         </div>
